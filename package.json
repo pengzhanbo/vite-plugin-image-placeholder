@@ -1,0 +1,87 @@
+{
+  "name": "vite-plugin-image-placeholder",
+  "version": "0.1.0",
+  "keywords": [
+    "vite",
+    "plugin",
+    "vite-plugin",
+    "image",
+    "placeholder",
+    "image-placeholder"
+  ],
+  "license": "GPL-3.0",
+  "author": "pengzhanbo <q942450674@outlook.com> (https://github.com/pengzhanbo)",
+  "type": "module",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "DEBUG=vite:plugin-image-placeholder vite example --config ./example/vite.config.ts",
+    "docs:build": "vitepress build docs",
+    "docs:dev": "vitepress dev docs",
+    "docs:preview": "vitepress preview docs",
+    "lint": "eslint .",
+    "prepublishOnly": "pnpm run build",
+    "release:changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "release": "bumpp package.json --execute=\"pnpm release:changelog\" --commit --all --push --tag && pnpm publish --access public"
+  },
+  "dependencies": {
+    "debug": "^4.3.4",
+    "lru-cache": "^7.14.1",
+    "path-to-regexp": "^6.2.1",
+    "rgb-hex": "^4.0.0",
+    "sharp": "^0.31.3"
+  },
+  "devDependencies": {
+    "@pengzhanbo/eslint-config-ts": "^0.3.2",
+    "@pengzhanbo/prettier-config": "^0.3.2",
+    "@types/debug": "^4.1.7",
+    "@types/node": "^18.11.18",
+    "@types/sharp": "^0.31.1",
+    "bumpp": "^8.2.1",
+    "conventional-changelog-cli": "^2.2.2",
+    "eslint": "^8.31.0",
+    "prettier": "^2.8.2",
+    "tsup": "^6.5.0",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4"
+  },
+  "peerDependencies": {
+    "vite": ">=3.0.0"
+  },
+  "prettier": "@pengzhanbo/prettier-config",
+  "packageManager": "pnpm@7.18.2",
+  "engines": {
+    "node": "^14.18.0 || >=16"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "ignoreMissing": [
+        "@algolia/client-search"
+      ]
+    }
+  },
+  "tsup": {
+    "entry": [
+      "src/index.ts"
+    ],
+    "sourcemap": false,
+    "dts": true,
+    "splitting": false,
+    "clean": true,
+    "format": [
+      "esm",
+      "cjs"
+    ]
+  }
+}
