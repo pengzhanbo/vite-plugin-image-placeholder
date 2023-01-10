@@ -52,7 +52,7 @@ export interface ImagePlaceholderOptions {
   /**
    * 图片宽高比，当未明确指定高度时，高度将根据 ratio 计算
    *
-   * @default 3/4
+   * @default 9/16
    */
   ratio?: number
   /**
@@ -83,6 +83,7 @@ export type ImageType =
   | 'avif'
   | 'heif'
   | 'gif'
+  | 'svg'
 
 export interface ImagePlaceholderParams {
   width?: number

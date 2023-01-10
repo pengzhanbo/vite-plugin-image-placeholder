@@ -64,10 +64,7 @@ export async function pathToImage(
 
   const textOptions: TextOptions = {
     dpi: Math.floor((Math.min(width, height) / 4) * 3) || 1,
-    text: formatText(
-      params.text || options.text || `${width}x${height}`,
-      formatColor(query.textColor, true) || options.textColor,
-    ),
+    text: params.text || options.text || `${width}x${height}`,
     rgba: true,
   }
 
@@ -78,6 +75,7 @@ export async function pathToImage(
       text: textOptions,
       quality: options.quality,
       compressionLevel: options.compressionLevel,
+      textColor: formatColor(query.textColor, true) || options.textColor,
     })
     const result: ImageCacheItem = {
       type: imgType,
@@ -96,16 +94,23 @@ export async function createImage({
   text,
   quality,
   compressionLevel,
+  textColor,
 }: {
   type: ImageType
   create: CreateOptions
   text: TextOptions
   quality: number
   compressionLevel: number
+  textColor: string
 }) {
+  if (type === 'svg') {
+    return createSVG(create, text.text, textColor)
+  }
   let image = sharp({ create })
 
-  text && image.composite([{ input: { text } }])
+  text.text = formatText(text.text, textColor)
+
+  image.composite([{ input: { text } }])
 
   switch (type) {
     case 'jpg':
@@ -131,4 +136,18 @@ export async function createImage({
   const buf = await image.toBuffer()
 
   return buf
+}
+
+export function createSVG(
+  create: CreateOptions,
+  text: string,
+  textColor: string,
+) {
+  const { width, height, background } = create
+  const fs = Math.floor(Math.min(width, height) / 8)
+  const mw = Math.floor(width / 2)
+  const mh = Math.floor(height / 2 + fs / 4)
+  const svg = `<svg version="1.1" baseProfile="full" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="${background}" /><text font-family="monospace" x="${mw}" y="${mh}" font-size="${fs}" text-anchor="middle" fill="${textColor}">${text}</text></svg>`
+  const buffer = Buffer.from(svg, 'utf-8')
+  return buffer
 }

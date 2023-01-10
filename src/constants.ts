@@ -15,4 +15,5 @@ export const imageMimeType = {
   avif: 'image/avif',
   heif: 'image/heif',
   gif: 'image/gif',
+  svg: 'image/svg+xml',
 }
