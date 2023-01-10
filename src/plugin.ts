@@ -139,7 +139,7 @@ function placeholderInlinePlugin(
       let match
       // eslint-disable-next-line no-cond-assign
       while ((match = RE_PATTERN.exec(code))) {
-        const url = match[1] || match[1] || match[2]
+        const url = match[1] || match[2] || match[3] || match[4]
         const start = match.index
         const end = start + match[0].length
         if (contentCache.has(url)) {
@@ -169,7 +169,7 @@ function placeholderInlinePlugin(
       let match
       // eslint-disable-next-line no-cond-assign
       while ((match = RE_PATTERN.exec(html))) {
-        const url = match[1] || match[1] || match[2]
+        const url = match[1] || match[2] || match[3] || match[4]
         const start = match.index
         const end = start + match[0].length
         if (contentCache.has(url)) {
