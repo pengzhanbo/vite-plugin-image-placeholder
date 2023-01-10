@@ -1,3 +1,19 @@
+## [0.1.2](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.1.1...v0.1.2) (2023-01-10)
+
+
+### Bug Fixes
+
+* inline `[('"]` to `("` ([a0a56c3](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/a0a56c3f8d1511a9a3fe37ceaae7e66e205ada4b))
+
+
+### Features
+
+* add ratio option to set w/h ([e6995fb](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/e6995fb0974890555701bca875881032d8b43b1d))
+* add svg support ([01da606](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/01da6062862e72b9b990a872afa7bbf704990fba))
+* **types:** add comment ([e7fbc8b](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/e7fbc8b5e06222aeaeef4c724bd2cd7750e3d6fc))
+
+
+
 ## [0.1.1](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.1.0...v0.1.1) (2023-01-10)
 
 
