@@ -108,7 +108,7 @@ function placeholderInlinePlugin(
   const resolveVirtualModuleId = `\0${moduleId}`
   const s = `(${opts.prefix}.*?)`
   const RE_PATTERN = new RegExp(
-    `(?:"${s}")|(?:\\('${s}'\\))|(?:\\("${s}"\\))`,
+    `(?:"${s}")|(?:\\(${s}\\))|(?:\\('${s}'\\))|(?:\\("${s}"\\))`,
     'gu',
   )
   let isBuild = false
