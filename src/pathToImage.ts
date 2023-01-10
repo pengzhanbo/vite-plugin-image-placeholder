@@ -32,7 +32,6 @@ export async function pathToImage(
   })
 
   if (!rule) return
-
   const urlMatch = match(rule, { decode: decodeURIComponent })(pathname!) || {
     params: {
       width: options.width,
@@ -72,7 +71,13 @@ export async function pathToImage(
     rgba: true,
   }
 
-  const imgBuf = await createImage(imgType, createOptions, textOptions)
+  const imgBuf = await createImage({
+    type: imgType,
+    create: createOptions,
+    text: textOptions,
+    quality: options.quality,
+    compressionLevel: options.compressionLevel,
+  })
   const result: ImageCacheItem = {
     type: imgType,
     buffer: imgBuf,
@@ -81,34 +86,42 @@ export async function pathToImage(
   return result
 }
 
-export async function createImage(
-  type: ImageType = 'png',
-  createOptions: CreateOptions,
-  textOptions?: TextOptions,
-) {
-  let image = sharp({ create: createOptions })
+export async function createImage({
+  type = 'png',
+  create,
+  text,
+  quality,
+  compressionLevel,
+}: {
+  type: ImageType
+  create: CreateOptions
+  text: TextOptions
+  quality: number
+  compressionLevel: number
+}) {
+  let image = sharp({ create })
 
-  textOptions && image.composite([{ input: { text: textOptions } }])
+  text && image.composite([{ input: { text } }])
 
   switch (type) {
     case 'jpg':
     case 'jpeg':
-      image = image.jpeg({ quality: 100 })
+      image = image.jpeg({ quality })
       break
     case 'webp':
-      image = image.webp({ quality: 100 })
+      image = image.webp({ quality })
       break
     case 'heif':
-      image = image.heif({ quality: 100 })
+      image = image.heif({ quality })
       break
     case 'avif':
-      image = image.avif({ quality: 100 })
+      image = image.avif({ quality })
       break
     case 'gif':
       image = image.gif()
       break
     default:
-      image = image.png({ compressionLevel: 1 })
+      image = image.png({ compressionLevel })
   }
 
   const buf = await image.toBuffer()

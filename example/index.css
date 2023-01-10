@@ -1,0 +1,6 @@
+.img {
+  width: 300px;
+  height: 169px;
+  background: url('/image/placeholder') no-repeat;
+  background-size: cover;
+}

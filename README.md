@@ -6,13 +6,11 @@
 
 ## 安装
 
-> 还未正式发布到 npm
-
 ```sh
 npm i -D vite-plugin-image-placeholder
 ```
 
-由于插件以来 `sharp` 库生成图片资源。`sharp`在安装过程中依赖 `libvips`，在中国地区安装可能失败。
+由于插件依赖 `sharp` 库生成图片资源。`sharp`在安装过程中依赖 `libvips`，在中国地区安装可能失败。
 
 解决方式是，在 项目的根目录中的 `.npmrc` 文件中，写入以下配置：
 
@@ -70,5 +68,4 @@ const rules = [
 
 - [x] 开发时为 `GET` 请求的生成图片
 - [x] 通过模块引入的资源生成图片资源
-- [ ] 在 HTML/CSS 中引入的占位图片资源替换为base64
-- [ ] 在 js 中通过 字符串引入的资源替换为 base64
+- [x] 在 HTML/CSS 中引入的占位图片资源替换为base64

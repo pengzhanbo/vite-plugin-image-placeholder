@@ -2,5 +2,5 @@ import { defineConfig } from 'vite'
 import imagePlaceholder from '../src/index'
 
 export default defineConfig(() => ({
-  plugins: [imagePlaceholder()],
+  plugins: [imagePlaceholder({ inline: false })],
 }))

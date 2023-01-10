@@ -7,6 +7,9 @@ export interface ImagePlaceholderOptions {
   width?: number
   height?: number
   ratio?: string
+  quality?: number
+  compressionLevel?: number
+  inline?: boolean
 }
 
 export type ImageType =

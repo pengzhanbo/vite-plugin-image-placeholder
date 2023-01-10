@@ -57,3 +57,11 @@ export const getBackground = (background: string | string[]) => {
   const rdm = Math.floor(Math.random() * background.length)
   return background[rdm]
 }
+
+const htmlLangRE = /\.(?:html|htm)$/
+
+export const isHTMLRequest = (request: string) => htmlLangRE.test(request)
+
+const nonJsRe = /\.json(?:$|\?)/
+export const isNonJsRequest = (request: string): boolean =>
+  nonJsRe.test(request)
