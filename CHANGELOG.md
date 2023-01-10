@@ -1,3 +1,12 @@
+## [0.1.1](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.1.0...v0.1.1) (2023-01-10)
+
+
+### Bug Fixes
+
+* inline match pattern ([62063f5](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/62063f5ccd2764708a228cc678a31fea6c1e276f))
+
+
+
 # 0.1.0 (2023-01-10)
 
 
