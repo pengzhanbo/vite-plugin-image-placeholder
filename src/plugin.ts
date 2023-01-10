@@ -18,7 +18,7 @@ const parseOptions = (
       textColor: '#333',
       width: 300,
       type: 'png',
-      quality: 100,
+      quality: 80,
       compressionLevel: 6,
       inline: false,
     } as ImagePlaceholderOptions,
@@ -49,19 +49,13 @@ function placeholderServerPlugin(
         const url = req.url!
         if (!url.startsWith(opts.prefix)) return next()
 
-        try {
-          const image = await pathToImage(url, pathRules, opts)
+        const image = await pathToImage(url, pathRules, opts)
 
-          if (!image) return next()
+        if (!image) return next()
 
-          res.setHeader('Accept-Ranges', 'bytes')
-          res.setHeader('Content-Type', getMimeType(image.type))
-          res.end(image.buffer)
-          return
-        } catch (e) {
-          console.error(e)
-        }
-        next()
+        res.setHeader('Accept-Ranges', 'bytes')
+        res.setHeader('Content-Type', getMimeType(image.type))
+        res.end(image.buffer)
       })
     },
   }
@@ -139,19 +133,24 @@ function placeholderInlinePlugin(
       let match
       // eslint-disable-next-line no-cond-assign
       while ((match = RE_PATTERN.exec(code))) {
-        const url = match[1] || match[2] || match[3] || match[4]
+        const url = match[4] || match[3] || match[2] || match[1]
+        const dynamic = match[0].includes('(') ? ['("', '")'] : ['"', '"']
         const start = match.index
         const end = start + match[0].length
         if (contentCache.has(url)) {
           hasReplaced = true
-          s.update(start, end, `"${contentCache.get(url)}"`)
+          s.update(
+            start,
+            end,
+            `${dynamic[0]}${contentCache.get(url)}${dynamic[1]}`,
+          )
         } else {
           const image = await pathToImage(url, pathRules, opts)
           if (image) {
             hasReplaced = true
             const content = bufferToBase64(image)
             contentCache.set(url, content)
-            s.update(start, end, `"${content}"`)
+            s.update(start, end, `${dynamic[0]}${content}${dynamic[1]}`)
           }
         }
       }
@@ -169,17 +168,22 @@ function placeholderInlinePlugin(
       let match
       // eslint-disable-next-line no-cond-assign
       while ((match = RE_PATTERN.exec(html))) {
-        const url = match[1] || match[2] || match[3] || match[4]
+        const url = match[4] || match[3] || match[2] || match[1]
+        const dynamic = match[0].includes('(') ? ['("', '")'] : ['"', '"']
         const start = match.index
         const end = start + match[0].length
         if (contentCache.has(url)) {
-          s.update(start, end, `"${contentCache.get(url)}"`)
+          s.update(
+            start,
+            end,
+            `${dynamic[0]}${contentCache.get(url)}${dynamic[1]}`,
+          )
         } else {
           const image = await pathToImage(url, pathRules, opts)
           if (image) {
             const content = bufferToBase64(image)
             contentCache.set(url, content)
-            s.update(start, end, `"${content}"`)
+            s.update(start, end, `${dynamic[0]}${content}${dynamic[1]}`)
           }
         }
       }

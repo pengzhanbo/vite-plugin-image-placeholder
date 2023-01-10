@@ -71,19 +71,23 @@ export async function pathToImage(
     rgba: true,
   }
 
-  const imgBuf = await createImage({
-    type: imgType,
-    create: createOptions,
-    text: textOptions,
-    quality: options.quality,
-    compressionLevel: options.compressionLevel,
-  })
-  const result: ImageCacheItem = {
-    type: imgType,
-    buffer: imgBuf,
+  try {
+    const imgBuf = await createImage({
+      type: imgType,
+      create: createOptions,
+      text: textOptions,
+      quality: options.quality,
+      compressionLevel: options.compressionLevel,
+    })
+    const result: ImageCacheItem = {
+      type: imgType,
+      buffer: imgBuf,
+    }
+    bufferCache.set(url, result)
+    return result
+  } catch (e) {
+    console.error(e)
   }
-  bufferCache.set(url, result)
-  return result
 }
 
 export async function createImage({

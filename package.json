@@ -31,6 +31,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "DEBUG=vite:plugin-image-placeholder vite example --config ./example/vite.config.ts",
+    "build:example": "DEBUG=vite:plugin-image-placeholder vite build example --config ./example/vite.config.ts",
     "docs:build": "vitepress build docs",
     "docs:dev": "vitepress dev docs",
     "docs:preview": "vitepress preview docs",
