@@ -20,6 +20,7 @@ const parseOptions = (
       type: 'png',
       quality: 80,
       compressionLevel: 6,
+      ratio: 9 / 16,
       inline: false,
     } as ImagePlaceholderOptions,
     options,

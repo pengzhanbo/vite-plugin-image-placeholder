@@ -44,7 +44,7 @@ export async function pathToImage(
   const query = urlQuery as ImagePlaceholderQuery
   const imgType = params.type || DEFAULT_PARAMS.type!
   const width = Number(params.width) || 300
-  const height = Number(params.height) || Math.ceil((width / 16) * 9)
+  const height = Number(params.height) || Math.ceil(width * options.ratio)
 
   const createOptions: CreateOptions = {
     width,
