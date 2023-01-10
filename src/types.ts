@@ -1,11 +1,12 @@
 export interface ImagePlaceholderOptions {
   prefix?: string
-  background?: string
+  background?: string | string[]
   textColor?: string
   text?: string
   type?: ImageType
   width?: number
   height?: number
+  ratio?: string
 }
 
 export type ImageType =
@@ -30,12 +31,9 @@ export interface ImagePlaceholderQuery {
   noiseMean?: number
   noiseSigma?: number
   textColor?: string
-  textAlign?: 'left' | 'center' | 'right' | 'centre'
-  textJustify?: 0 | 1
-  textSpacing?: number
 }
 
 export interface ImageCacheItem {
   type: ImageType
-  content: Buffer
+  buffer: Buffer
 }

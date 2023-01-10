@@ -49,3 +49,11 @@ export const formatText = (text: string, color: string) => {
 export const getMimeType = (type: ImageType = 'png'): string => {
   return imageMimeType[type] || imageMimeType.png
 }
+
+export const getBackground = (background: string | string[]) => {
+  if (typeof background === 'string') {
+    return background
+  }
+  const rdm = Math.floor(Math.random() * background.length)
+  return background[rdm]
+}
