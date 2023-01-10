@@ -2,7 +2,7 @@ import { parse as urlParse } from 'node:url'
 import { match, pathToRegexp } from 'path-to-regexp'
 import type { Create, CreateText } from 'sharp'
 import sharp from 'sharp'
-import { cache } from './cache'
+import { bufferCache } from './cache'
 import { DEFAULT_PARAMS } from './constants'
 import type {
   ImageCacheItem,
@@ -22,8 +22,8 @@ export async function pathToImage(
   rules: string[],
   options: Required<ImagePlaceholderOptions>,
 ): Promise<ImageCacheItem | undefined> {
-  if (cache.has(url)) {
-    return cache.get(url)
+  if (bufferCache.has(url)) {
+    return bufferCache.get(url)
   }
   const { query: urlQuery, pathname } = urlParse(url, true)
 
@@ -77,7 +77,7 @@ export async function pathToImage(
     type: imgType,
     buffer: imgBuf,
   }
-  cache.set(url, result)
+  bufferCache.set(url, result)
   return result
 }
 
