@@ -1,3 +1,13 @@
+# [0.2.0](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.1.2...v0.2.0) (2023-01-11)
+
+
+### Features
+
+* add support `output` when build env ([1e1c71e](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/1e1c71e64368c4e0d2d2eebf21658fe4ab500978))
+* use emitFile to output assets ([2cedf6a](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/2cedf6a1486653ac6dd7235f981d105a6cdb6148))
+
+
+
 ## [0.1.2](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.1.1...v0.1.2) (2023-01-10)
 
 
