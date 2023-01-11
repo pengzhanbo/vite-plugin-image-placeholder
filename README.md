@@ -156,7 +156,7 @@ export interface ImagePlaceholderOptions {
   /**
    * 图片默认类型
    *
-   * @type 'jpg' | 'jpeg' | 'png' | 'webp' | 'avif' | 'heif' | 'gif'
+   * @type 'jpg' | 'jpeg' | 'png' | 'webp' | 'avif' | 'heif' | 'gif' | 'svg'
    *
    * @default 'png'
    */
@@ -227,4 +227,4 @@ export interface OutputFile {
 
 ## MIT
 
-![GPL-3.0](/LICENSE)
+[GPL-3.0](/LICENSE)
