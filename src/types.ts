@@ -79,7 +79,7 @@ export interface ImagePlaceholderOptions {
   /**
    * 生产构建时，输出图片资源到构建目录中
    *
-   * 如果取值为 true，默认根据 vite output 配置，输出到 dist/assets
+   * 如果取值为 true，默认根据 vite build 配置，输出到 dist/assets
    *
    * @default true
    */
