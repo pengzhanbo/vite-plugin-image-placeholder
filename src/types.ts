@@ -1,3 +1,5 @@
+import type { Plugin } from 'vite'
+
 export interface ImagePlaceholderOptions {
   /**
    * 图片路径前缀
@@ -130,3 +132,10 @@ export interface ImageCacheItem {
   type: ImageType
   buffer: Buffer
 }
+
+export type PluginContext<T = Plugin['load']> = T extends (
+  this: infer R,
+  ...args: any[]
+) => any
+  ? R
+  : never

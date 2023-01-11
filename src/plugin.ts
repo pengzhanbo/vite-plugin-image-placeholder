@@ -1,4 +1,3 @@
-import path from 'node:path'
 import MagicString from 'magic-string'
 import type { Plugin, ResolvedConfig } from 'vite'
 import { isCSSRequest } from 'vite'
@@ -7,7 +6,11 @@ import { contentCache } from './cache'
 import { DEFAULT_PREFIX } from './constants'
 import { generatePathRules } from './pathRules'
 import { pathToImage } from './pathToImage'
-import type { ImageCacheItem, ImagePlaceholderOptions } from './types'
+import type {
+  ImageCacheItem,
+  ImagePlaceholderOptions,
+  PluginContext,
+} from './types'
 import { getMimeType, isHTMLRequest, isNonJsRequest } from './utils'
 
 const parseOptions = (
@@ -36,10 +39,9 @@ const parseOutput = (
   output: Required<ImagePlaceholderOptions>['output'],
   config: ResolvedConfig,
 ) => {
-  const { outDir, assetsDir } = config.build
+  const { assetsDir } = config.build
   let assets
   let filename
-  const out = path.join(config.root, outDir)
   if (output === true) {
     assets = assetsDir
   } else if (typeof output === 'string') {
@@ -48,7 +50,7 @@ const parseOutput = (
     assets = (output!.dir || assetsDir).replace(/^\/+/, '')
     filename = output.filename
   }
-  return { assetsDir: assets, outDir: out, filename }
+  return { assetsDir: assets, filename }
 }
 
 const bufferToBase64 = (image: ImageCacheItem) => {
@@ -113,15 +115,16 @@ function placeholderImporterPlugin(
         const image = await pathToImage(url, pathRules, opts)
         if (image) {
           let content: string
-          if (isBuild && opts.output) {
-            const { outDir, assetsDir, filename } = parseOutput(
-              opts.output,
-              config,
-            )
+          if (
+            isBuild &&
+            opts.output &&
+            image.buffer.byteLength >= config.build.assetsInlineLimit
+          ) {
+            const { assetsDir, filename } = parseOutput(opts.output, config)
             content = await bufferToFile(
+              this,
               image.buffer,
               image.type,
-              outDir,
               assetsDir,
               filename,
             )
@@ -150,6 +153,7 @@ function placeholderTransformPlugin(
   )
   let isBuild = false
   let config: ResolvedConfig
+  let ctx: PluginContext
   return {
     name: 'vite-plugin-image-placeholder-transform',
     configResolved(_config) {
@@ -157,6 +161,8 @@ function placeholderTransformPlugin(
       isBuild = config.command === 'build'
     },
     async transform(code, id) {
+      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      ctx = this
       // 构建时如果未配置 inline 和 output， 则不转换，直接跳过
       if (isBuild && !opts.inline && !opts.output) {
         return
@@ -174,6 +180,7 @@ function placeholderTransformPlugin(
         return
       }
       const result = await transformPlaceholder(
+        ctx,
         code,
         RE_PATTERN,
         pathRules,
@@ -187,6 +194,7 @@ function placeholderTransformPlugin(
       if (!isBuild) return html
       if (!opts.inline && !opts.output) return html
       const result = await transformPlaceholder(
+        ctx,
         html,
         RE_PATTERN,
         pathRules,
@@ -200,6 +208,7 @@ function placeholderTransformPlugin(
 }
 
 async function transformPlaceholder(
+  ctx: PluginContext,
   code: string,
   pattern: RegExp,
   rules: string[],
@@ -223,15 +232,15 @@ async function transformPlaceholder(
       if (image) {
         hasReplaced = true
         let content: string
-        if (opts.output) {
-          const { outDir, assetsDir, filename } = parseOutput(
-            opts.output,
-            config,
-          )
+        if (
+          opts.output &&
+          image.buffer.byteLength >= config.build.assetsInlineLimit
+        ) {
+          const { assetsDir, filename } = parseOutput(opts.output, config)
           content = await bufferToFile(
+            ctx,
             image.buffer,
             image.type,
-            outDir,
             assetsDir,
             filename,
           )
