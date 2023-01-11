@@ -73,6 +73,32 @@ export interface ImagePlaceholderOptions {
    * @default false
    */
   inline?: boolean
+
+  /**
+   * 生产构建时，输出图片资源到构建目录中
+   *
+   * 如果取值为 true，默认根据 vite output 配置，输出到 dist/assets
+   *
+   * @default true
+   */
+  output?:
+    | true
+    | string
+    | {
+        dir?: string
+        /**
+         * 重写 filename，有时候图片资源需要发布到CDN，可以在这里修改文件名称
+         */
+        filename?: OutputFilename
+      }
+}
+
+export type OutputFilename = (filename: string, file: OutputFile) => string
+
+export interface OutputFile {
+  basename: string
+  assetsDir: string
+  ext: string
 }
 
 export type ImageType =

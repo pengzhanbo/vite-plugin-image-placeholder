@@ -1,6 +1,8 @@
+import path from 'node:path'
 import MagicString from 'magic-string'
 import type { Plugin, ResolvedConfig } from 'vite'
 import { isCSSRequest } from 'vite'
+import { bufferToFile } from './bufferToFile'
 import { contentCache } from './cache'
 import { DEFAULT_PREFIX } from './constants'
 import { generatePathRules } from './pathRules'
@@ -28,6 +30,25 @@ const parseOptions = (
   options.prefix = `/${options.prefix}`.replace(/\/\//g, '/').replace(/\/$/, '')
 
   return options as Required<ImagePlaceholderOptions>
+}
+
+const parseOutput = (
+  output: Required<ImagePlaceholderOptions>['output'],
+  config: ResolvedConfig,
+) => {
+  const { outDir, assetsDir } = config.build
+  let assets
+  let filename
+  const out = path.join(config.root, outDir)
+  if (output === true) {
+    assets = assetsDir
+  } else if (typeof output === 'string') {
+    assets = output.replace(/^\/+/, '')
+  } else {
+    assets = (output!.dir || assetsDir).replace(/^\/+/, '')
+    filename = output.filename
+  }
+  return { assetsDir: assets, outDir: out, filename }
 }
 
 const bufferToBase64 = (image: ImageCacheItem) => {
@@ -70,8 +91,14 @@ function placeholderImporterPlugin(
   const RE_VIRTUAL = /^\0virtual:\s*/
   const moduleId = `virtual:${opts.prefix.slice(1)}`
   const resolveVirtualModuleId = `\0${moduleId}`
+  let config: ResolvedConfig
+  let isBuild: boolean
   return {
     name: 'vite-plugin-image-placeholder-importer',
+    configResolved(_config) {
+      config = _config
+      isBuild = config.command === 'build'
+    },
     resolveId(id) {
       if (id.startsWith(moduleId)) {
         return `\0${id}`
@@ -85,7 +112,22 @@ function placeholderImporterPlugin(
         }
         const image = await pathToImage(url, pathRules, opts)
         if (image) {
-          const content = bufferToBase64(image)
+          let content: string
+          if (isBuild && opts.output) {
+            const { outDir, assetsDir, filename } = parseOutput(
+              opts.output,
+              config,
+            )
+            content = await bufferToFile(
+              image.buffer,
+              image.type,
+              outDir,
+              assetsDir,
+              filename,
+            )
+          } else {
+            content = bufferToBase64(image)
+          }
           contentCache.set(url, content)
           return `export default '${content}'`
         }
@@ -94,7 +136,7 @@ function placeholderImporterPlugin(
   }
 }
 
-function placeholderInlinePlugin(
+function placeholderTransformPlugin(
   options: ImagePlaceholderOptions = {},
 ): Plugin {
   const opts = parseOptions(options)
@@ -109,17 +151,19 @@ function placeholderInlinePlugin(
   let isBuild = false
   let config: ResolvedConfig
   return {
-    name: 'vite-plugin-image-placeholder-inline',
-    config(_, { command }) {
-      isBuild = command === 'build'
-    },
+    name: 'vite-plugin-image-placeholder-transform',
     configResolved(_config) {
       config = _config
+      isBuild = config.command === 'build'
     },
     async transform(code, id) {
-      if (isBuild && !opts.inline) {
+      // 构建时如果未配置 inline 和 output， 则不转换，直接跳过
+      if (isBuild && !opts.inline && !opts.output) {
         return
       }
+      // 开发环境不对css转换，因为CSS可以直接通过 GET请求获取资源，
+      // 跳过html资源，在transformIndexHtml中转换，开发环境时也是通过 GET请求获取，
+      // 优化性能，跳过非js资源和 assets 资源
       if (
         (!isBuild && isCSSRequest(id)) ||
         isHTMLRequest(id) ||
@@ -129,68 +173,80 @@ function placeholderInlinePlugin(
       ) {
         return
       }
-      const s = new MagicString(code)
-      let hasReplaced = false
-      let match
-      // eslint-disable-next-line no-cond-assign
-      while ((match = RE_PATTERN.exec(code))) {
-        const url = match[4] || match[3] || match[2] || match[1]
-        const dynamic = match[0].includes('(') ? ['("', '")'] : ['"', '"']
-        const start = match.index
-        const end = start + match[0].length
-        if (contentCache.has(url)) {
-          hasReplaced = true
-          s.update(
-            start,
-            end,
-            `${dynamic[0]}${contentCache.get(url)}${dynamic[1]}`,
-          )
-        } else {
-          const image = await pathToImage(url, pathRules, opts)
-          if (image) {
-            hasReplaced = true
-            const content = bufferToBase64(image)
-            contentCache.set(url, content)
-            s.update(start, end, `${dynamic[0]}${content}${dynamic[1]}`)
-          }
-        }
-      }
-      if (!hasReplaced) {
-        return null
-      }
-      return {
-        code: s.toString(),
-      }
+      const result = await transformPlaceholder(
+        code,
+        RE_PATTERN,
+        pathRules,
+        opts,
+        config,
+      )
+
+      return result ? { code: result } : null
     },
     async transformIndexHtml(html) {
       if (!isBuild) return html
-      if (!opts.inline) return html
-      const s = new MagicString(html)
-      let match
-      // eslint-disable-next-line no-cond-assign
-      while ((match = RE_PATTERN.exec(html))) {
-        const url = match[4] || match[3] || match[2] || match[1]
-        const dynamic = match[0].includes('(') ? ['("', '")'] : ['"', '"']
-        const start = match.index
-        const end = start + match[0].length
-        if (contentCache.has(url)) {
-          s.update(
-            start,
-            end,
-            `${dynamic[0]}${contentCache.get(url)}${dynamic[1]}`,
-          )
-        } else {
-          const image = await pathToImage(url, pathRules, opts)
-          if (image) {
-            const content = bufferToBase64(image)
-            contentCache.set(url, content)
-            s.update(start, end, `${dynamic[0]}${content}${dynamic[1]}`)
-          }
-        }
-      }
-      return s.toString()
+      if (!opts.inline && !opts.output) return html
+      const result = await transformPlaceholder(
+        html,
+        RE_PATTERN,
+        pathRules,
+        opts,
+        config,
+      )
+
+      return result || html
     },
   }
+}
+
+async function transformPlaceholder(
+  code: string,
+  pattern: RegExp,
+  rules: string[],
+  opts: Required<ImagePlaceholderOptions>,
+  config: ResolvedConfig,
+) {
+  const s = new MagicString(code)
+  let hasReplaced = false
+  let match
+  // eslint-disable-next-line no-cond-assign
+  while ((match = pattern.exec(code))) {
+    const url = match[4] || match[3] || match[2] || match[1]
+    const dynamic = match[0].startsWith('(') ? ['("', '")'] : ['"', '"']
+    const start = match.index
+    const end = start + match[0].length
+    if (contentCache.has(url)) {
+      hasReplaced = true
+      s.update(start, end, `${dynamic[0]}${contentCache.get(url)}${dynamic[1]}`)
+    } else {
+      const image = await pathToImage(url, rules, opts)
+      if (image) {
+        hasReplaced = true
+        let content: string
+        if (opts.output) {
+          const { outDir, assetsDir, filename } = parseOutput(
+            opts.output,
+            config,
+          )
+          content = await bufferToFile(
+            image.buffer,
+            image.type,
+            outDir,
+            assetsDir,
+            filename,
+          )
+        } else {
+          content = bufferToBase64(image)
+        }
+        contentCache.set(url, content)
+        s.update(start, end, `${dynamic[0]}${content}${dynamic[1]}`)
+      }
+    }
+  }
+  if (!hasReplaced) {
+    return null
+  }
+  return s.toString()
 }
 
 export function imagePlaceholderPlugin(
@@ -199,6 +255,6 @@ export function imagePlaceholderPlugin(
   return [
     placeholderServerPlugin(options),
     placeholderImporterPlugin(options),
-    placeholderInlinePlugin(options),
+    placeholderTransformPlugin(options),
   ]
 }
