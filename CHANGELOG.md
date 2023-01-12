@@ -1,3 +1,12 @@
+## [0.2.1](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.0...v0.2.1) (2023-01-12)
+
+
+### Performance Improvements
+
+* optimize path matches ([7ee6fed](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/7ee6fed812247da6b1b6ff8ac8d0e75a01148afa))
+
+
+
 # [0.2.0](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.1.2...v0.2.0) (2023-01-11)
 
 
