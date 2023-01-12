@@ -1,3 +1,12 @@
+## [0.2.2](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.1...v0.2.2) (2023-01-12)
+
+
+### Bug Fixes
+
+* **utils:** `formatColor` match alpha empty ([2ae596e](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/2ae596e3abbe4bc21a970df9636d8d031aa1934d))
+
+
+
 ## [0.2.1](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.0...v0.2.1) (2023-01-12)
 
 
