@@ -1,20 +1,16 @@
 import MagicString from 'magic-string'
 import type { Plugin, ResolvedConfig } from 'vite'
 import { isCSSRequest } from 'vite'
-import { bufferToFile } from './bufferToFile'
 import { contentCache } from './cache'
 import { DEFAULT_PREFIX } from './constants'
 import type { FindPathRule } from './pathRules'
 import { createPathRuleMatch } from './pathRules'
 import { pathToImage } from './pathToImage'
-import type {
-  ImageCacheItem,
-  ImagePlaceholderOptions,
-  PluginContext,
-} from './types'
+import { bufferToBase64, bufferToFile } from './transformBuffer'
+import type { ImagePlaceholderOptions, PluginContext } from './types'
 import { getMimeType, isHTMLRequest, isNonJsRequest } from './utils'
 
-const parseOptions = (
+export const parseOptions = (
   options: ImagePlaceholderOptions,
 ): Required<ImagePlaceholderOptions> => {
   options = Object.assign(
@@ -54,10 +50,12 @@ const parseOutput = (
   return { assetsDir: assets, filename }
 }
 
-const bufferToBase64 = (image: ImageCacheItem) => {
-  const base64 = image.buffer.toString('base64')
-  const content = `data:${getMimeType(image.type)};base64,${base64}`
-  return content
+export const createPlaceholderPattern = (prefix: string) => {
+  const s = `(${prefix}.*?)`
+  return new RegExp(
+    `(?:"${s}")|(?:\\(${s}\\))|(?:\\('${s}'\\))|(?:\\("${s}"\\))`,
+    'gu',
+  )
 }
 
 function placeholderServerPlugin(
@@ -147,11 +145,7 @@ function placeholderTransformPlugin(
   const findPathRule = createPathRuleMatch(opts.prefix)
   const moduleId = `virtual:${opts.prefix.slice(1)}`
   const resolveVirtualModuleId = `\0${moduleId}`
-  const s = `(${opts.prefix}.*?)`
-  const RE_PATTERN = new RegExp(
-    `(?:"${s}")|(?:\\(${s}\\))|(?:\\('${s}'\\))|(?:\\("${s}"\\))`,
-    'gu',
-  )
+  const RE_PATTERN = createPlaceholderPattern(opts.prefix)
   let isBuild = false
   let config: ResolvedConfig
   let ctx: PluginContext
@@ -208,7 +202,7 @@ function placeholderTransformPlugin(
   }
 }
 
-async function transformPlaceholder(
+export async function transformPlaceholder(
   ctx: PluginContext,
   code: string,
   pattern: RegExp,
