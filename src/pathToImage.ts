@@ -1,9 +1,10 @@
 import { parse as urlParse } from 'node:url'
-import { match, pathToRegexp } from 'path-to-regexp'
+import { match } from 'path-to-regexp'
 import type { Create, CreateText } from 'sharp'
 import sharp from 'sharp'
 import { bufferCache } from './cache'
 import { DEFAULT_PARAMS } from './constants'
+import type { FindPathRule } from './pathRules'
 import type {
   ImageCacheItem,
   ImagePlaceholderOptions,
@@ -19,7 +20,7 @@ export type TextOptions = CreateText
 
 export async function pathToImage(
   url: string,
-  rules: string[],
+  findPathRule: FindPathRule,
   options: Required<ImagePlaceholderOptions>,
 ): Promise<ImageCacheItem | undefined> {
   if (bufferCache.has(url)) {
@@ -27,9 +28,7 @@ export async function pathToImage(
   }
   const { query: urlQuery, pathname } = urlParse(url, true)
 
-  const rule = rules.find((rule) => {
-    return pathToRegexp(rule).test(pathname!)
-  })
+  const rule = findPathRule(pathname!)
 
   if (!rule) return
   const urlMatch = match(rule, { decode: decodeURIComponent })(pathname!) || {

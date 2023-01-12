@@ -4,7 +4,8 @@ import { isCSSRequest } from 'vite'
 import { bufferToFile } from './bufferToFile'
 import { contentCache } from './cache'
 import { DEFAULT_PREFIX } from './constants'
-import { generatePathRules } from './pathRules'
+import type { FindPathRule } from './pathRules'
+import { createPathRuleMatch } from './pathRules'
 import { pathToImage } from './pathToImage'
 import type {
   ImageCacheItem,
@@ -63,7 +64,7 @@ function placeholderServerPlugin(
   options: ImagePlaceholderOptions = {},
 ): Plugin {
   const opts = parseOptions(options)
-  const pathRules = generatePathRules(opts.prefix)
+  const findPathRule = createPathRuleMatch(opts.prefix)
 
   return {
     name: 'vite-plugin-image-placeholder-server',
@@ -73,7 +74,7 @@ function placeholderServerPlugin(
         const url = req.url!
         if (!url.startsWith(opts.prefix)) return next()
 
-        const image = await pathToImage(url, pathRules, opts)
+        const image = await pathToImage(url, findPathRule, opts)
 
         if (!image) return next()
 
@@ -89,7 +90,7 @@ function placeholderImporterPlugin(
   options: ImagePlaceholderOptions = {},
 ): Plugin {
   const opts = parseOptions(options)
-  const pathRules = generatePathRules(opts.prefix)
+  const findPathRule = createPathRuleMatch(opts.prefix)
   const RE_VIRTUAL = /^\0virtual:\s*/
   const moduleId = `virtual:${opts.prefix.slice(1)}`
   const resolveVirtualModuleId = `\0${moduleId}`
@@ -112,7 +113,7 @@ function placeholderImporterPlugin(
         if (contentCache.has(url)) {
           return `export default '${contentCache.get(url)!}'`
         }
-        const image = await pathToImage(url, pathRules, opts)
+        const image = await pathToImage(url, findPathRule, opts)
         if (image) {
           let content: string
           if (
@@ -143,7 +144,7 @@ function placeholderTransformPlugin(
   options: ImagePlaceholderOptions = {},
 ): Plugin {
   const opts = parseOptions(options)
-  const pathRules = generatePathRules(opts.prefix)
+  const findPathRule = createPathRuleMatch(opts.prefix)
   const moduleId = `virtual:${opts.prefix.slice(1)}`
   const resolveVirtualModuleId = `\0${moduleId}`
   const s = `(${opts.prefix}.*?)`
@@ -183,7 +184,7 @@ function placeholderTransformPlugin(
         ctx,
         code,
         RE_PATTERN,
-        pathRules,
+        findPathRule,
         opts,
         config,
       )
@@ -197,7 +198,7 @@ function placeholderTransformPlugin(
         ctx,
         html,
         RE_PATTERN,
-        pathRules,
+        findPathRule,
         opts,
         config,
       )
@@ -211,7 +212,7 @@ async function transformPlaceholder(
   ctx: PluginContext,
   code: string,
   pattern: RegExp,
-  rules: string[],
+  findPathRule: FindPathRule,
   opts: Required<ImagePlaceholderOptions>,
   config: ResolvedConfig,
 ) {
@@ -228,13 +229,14 @@ async function transformPlaceholder(
       hasReplaced = true
       s.update(start, end, `${dynamic[0]}${contentCache.get(url)}${dynamic[1]}`)
     } else {
-      const image = await pathToImage(url, rules, opts)
+      const image = await pathToImage(url, findPathRule, opts)
       if (image) {
         hasReplaced = true
         let content: string
         if (
           opts.output &&
-          image.buffer.byteLength >= config.build.assetsInlineLimit
+          image.buffer.byteLength >= config.build.assetsInlineLimit &&
+          config.command === 'build'
         ) {
           const { assetsDir, filename } = parseOutput(opts.output, config)
           content = await bufferToFile(
