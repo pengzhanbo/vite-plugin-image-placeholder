@@ -15,8 +15,10 @@ export const formatRGBA = (colors: string[]) => {
     ? colors[3].startsWith('.')
       ? `0${colors[3]}`
       : colors[3]
-    : '1'
-  return `rgba(${colors[0]},${colors[1]},${colors[2]},${alpha})`
+    : undefined
+  return alpha === undefined
+    ? `rgb(${colors[0]},${colors[1]},${colors[2]})`
+    : `rgba(${colors[0]},${colors[1]},${colors[2]},${alpha})`
 }
 
 export const formatColor = (
@@ -35,7 +37,7 @@ export const formatColor = (
       ? match[4].startsWith('.')
         ? `0${match[4]}`
         : match[4]
-      : '1'
+      : ''
     const colors = [match[1], match[2], match[3], alpha]
     return hex ? `#${rbg2hex(formatRGBA(colors))}` : formatRGBA(colors)
   }
