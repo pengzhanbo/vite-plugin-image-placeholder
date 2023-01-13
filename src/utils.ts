@@ -6,7 +6,7 @@ import type { ImageType } from './types'
 export const logger = debug('vite:plugin-image-placeholder')
 
 export const RE_RGBA =
-  /^(?:rgba?\()?(\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})(?:,\s*(\d?.?\d))?(?:\))?$/
+  /^(?:rgba?\()?(\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})(?:,\s*(\d?\.?\d))?(?:\))?$/
 
 export const RE_HEX = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/
 
