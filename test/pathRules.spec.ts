@@ -10,6 +10,7 @@ describe('path pattern truthy', () => {
   const matches = (pathname: string): boolean => !!findPathRule(pathname)
   test.each(
     [
+      // -- width height type --- start ---
       '',
       '.png',
       '.jpg',
@@ -25,6 +26,7 @@ describe('path pattern truthy', () => {
       '/300/200.png',
       '/bg/ccc',
       '/bg/00ffcc',
+      '/bg/00ffccff',
       '/bg/255,255,255',
       '/bg/255,255,255,1',
       '/bg/rgb(255,255,255)',
@@ -33,22 +35,51 @@ describe('path pattern truthy', () => {
       '/bg/ccc/300',
       '/bg/ccc/300/200',
       '/bg/ccc/300/200.png',
+      '/background/ccc',
+      '/bg/ccc/text/mark',
+      '/bg/ccc/text/mark.jpg',
+      '/bg/ccc/text/mark/300',
+      '/bg/ccc/text/mark/300/200.jpg',
+      '/background/ccc/text/mark',
       '/text/文本',
       '/text/mark/300',
       '/text/mark/300/200',
       '/text/mark.jpg',
       '/text/mark/300.png',
-      '/bg/ccc/text/mark',
-      '/bg/ccc/text/mark.jpg',
-      '/bg/ccc/text/mark/300',
-      '/bg/ccc/text/mark/300/200.jpg',
       '/text/mark/bg/ccc',
       '/text/mark/bg/ccc.jpg',
       '/text/mark/bg/ccc/300',
       '/text/mark/bg/ccc/300/200.jpg',
+      '/text/mark/background/ccc',
+      '/t/mark',
+      '/t/mark/bg/ccc',
+      '/textColor/222',
+      '/color/222',
+      '/c/222',
+      '/color/fff/bg/000',
+      '/bg/fff/t/mark/c/000/300/200.png',
     ].map((path) => `/image/placeholder${path}`),
   )('path: %s', (pathname) => {
     expect(matches(pathname)).toBeTruthy()
+  })
+})
+
+describe('path matches falsy', () => {
+  const findPathRule = createPathRuleMatch('/image/placeholder')
+  const matches = (pathname: string): boolean => !!findPathRule(pathname)
+  test.each(
+    [
+      '/ee',
+      '/cc/bb',
+      '/ee.jpg',
+      '/ee/cc.jpg',
+      '/bg/ggg',
+      '/bg/ggg/text',
+      '/b/gggg',
+      '/text/mark/bg/ccc/c/ggg',
+    ].map((path) => `/image/placeholder${path}`),
+  )('path: %s', (pathname) => {
+    expect(matches(pathname)).toBeFalsy()
   })
 })
 
@@ -71,7 +102,12 @@ describe('path matches parse', () => {
       { pathname: '.jpg', expected: { type: 'jpg' } },
       { pathname: '/bg/ccc', expected: { background: 'ccc' } },
       { pathname: '/bg/255,255,255', expected: { background: '255,255,255' } },
+      { pathname: '/background/fff', expected: { background: 'fff' } },
+      { pathname: '/t/mark', expected: { text: 'mark' } },
       { pathname: '/text/mark', expected: { text: 'mark' } },
+      { pathname: '/color/ccc', expected: { textColor: 'ccc' } },
+      { pathname: '/textColor/ccc', expected: { textColor: 'ccc' } },
+      { pathname: '/c/ccc', expected: { textColor: 'ccc' } },
       {
         pathname: '/bg/ccc/text/mark',
         expected: { text: 'mark', background: 'ccc' },
@@ -95,6 +131,6 @@ describe('path matches parse', () => {
       expected,
     })),
   )('path: $pathname -> $expected', ({ pathname, expected }) => {
-    expect(parse(pathname)).toEqual(expected)
+    expect(parse(pathname)).toMatchObject(expected)
   })
 })
