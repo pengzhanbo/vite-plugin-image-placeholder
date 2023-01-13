@@ -2,7 +2,6 @@ import MagicString from 'magic-string'
 import type { Plugin, ResolvedConfig } from 'vite'
 import { isCSSRequest } from 'vite'
 import { contentCache } from './cache'
-import { DEFAULT_PREFIX } from './constants'
 import type { FindPathRule } from './pathRules'
 import { createPathRuleMatch } from './pathRules'
 import { pathToImage } from './pathToImage'
@@ -15,7 +14,7 @@ export const parseOptions = (
 ): Required<ImagePlaceholderOptions> => {
   options = Object.assign(
     {
-      prefix: DEFAULT_PREFIX,
+      prefix: 'image/placeholder',
       background: '#ccc',
       textColor: '#333',
       width: 300,
@@ -78,6 +77,7 @@ function placeholderServerPlugin(
 
         res.setHeader('Accept-Ranges', 'bytes')
         res.setHeader('Content-Type', getMimeType(image.type))
+        res.setHeader('Cache-Control', 'max-age=300')
         res.end(image.buffer)
       })
     },

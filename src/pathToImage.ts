@@ -3,7 +3,6 @@ import { match } from 'path-to-regexp'
 import type { Create, CreateText } from 'sharp'
 import sharp from 'sharp'
 import { bufferCache } from './cache'
-import { DEFAULT_PARAMS } from './constants'
 import type { FindPathRule } from './pathRules'
 import type {
   ImageCacheItem,
@@ -41,7 +40,7 @@ export async function pathToImage(
 
   const params = urlMatch.params as ImagePlaceholderParams
   const query = urlQuery as ImagePlaceholderQuery
-  const imgType = params.type || DEFAULT_PARAMS.type!
+  const imgType = params.type || options.type
   const width = Number(params.width) || 300
   const height = Number(params.height) || Math.ceil(width * options.ratio)
 
@@ -74,7 +73,7 @@ export async function pathToImage(
       text: textOptions,
       quality: options.quality,
       compressionLevel: options.compressionLevel,
-      textColor: formatColor(query.textColor, true) || options.textColor,
+      textColor: formatColor(params.textColor, true) || options.textColor,
     })
     const result: ImageCacheItem = {
       type: imgType,

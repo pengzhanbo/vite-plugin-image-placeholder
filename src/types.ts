@@ -117,6 +117,7 @@ export interface ImagePlaceholderParams {
   width?: number
   height?: number
   text?: string
+  textColor?: string
   background?: string
   type?: ImageType
 }
@@ -125,7 +126,6 @@ export interface ImagePlaceholderQuery {
   noise?: 0 | 1
   noiseMean?: number
   noiseSigma?: number
-  textColor?: string
 }
 
 export interface ImageCacheItem {
