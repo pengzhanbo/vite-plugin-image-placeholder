@@ -50,24 +50,69 @@ export default defineConfig(() => ({
 
 ### 匹配规则
 
-**路径匹配**
-```
-/${prefix}/bg/:background/text/:text/:width?/:height?{.:type}?
-/${prefix}/text/:text/bg/:background/:width?/:height?{.:type}?
-/${prefix}/text/:text/:width?/:height?{.:type}?
-/${prefix}/bg/:background/:width?/:height?{.:type}?
-/${prefix}/:width?/:height?{.:type}?
-```
-- `width`: `type: {number}` 图片宽度
-- `height`: `type: {number}` 图片高度
-- `background`: `type: {hex | rgb | rgba}` 背景色
-- `text`: `type: {string}` 文本
-- `type`: `type: {string}` 图片格式 `png`, `jpe?g`, `webp`, `avif`, `heif`, `gif`, `svg`
+路径匹配由 [`path-to-regexp`](https://github.com/pillarjs/path-to-regexp) 提供支持。
 
-**query 参数**
+在一个生成占位图片的路径中，URL由`pathname` + `query` 组成。
+其中，`pathname` 由 `prefix` + `named parameters`构成，
+
+- `prefix` 在引入插件时配置，默认为 `image/placeholder`。
+- `named parameters` 设置占位图片的各种属性。
+
+#### Named Parameters
+
+支持定义图片 背景色、文本内容、文本颜色、宽度、高度、图片格式
+
+- 背景色： `/background/:background`, 或者 `/bg/:background`
+  
+  exp: `/background/ccc`, `/bg/fff`, `/bg/255,255,255`
+
+- 文本内容：`/text/:text`, 或者 `/t/:text`
+  
+  exp: `/text/mark`, `/t/mark`
+
+- 文本颜色： `/textColor/:textColor`, 或者 `/color/:textColor` , 或者 `/c/:textColor` 
+  
+  exp: `/textColor/999`, `/color/333`, `/c/0,0,0`
+
+- 宽度、高度、图片格式： `/:width?/:height?/{.:type}?`
+  
+  exp: `/300` , `/300/200`, `/300/200.png`, `.png`, `/300.png`
+
+其中，背景色，文本内容，文本颜色 三者可以任意排列或缺省，这意味着支持：
+```
+/text/:text/bg/:background/textColor/:textColor
+/text/:text/textColor/:textColor
+/bg/:background/text/:text
+/textColor/:textColor
+```
+宽度、高度、图片格式 三者则固定跟随在 `pathname`的尾部：
+```
+/text/:text/bg/:background/textColor/:textColor/:width?/:height?/{.:type}?
+/text/:text/textColor/:textColor/:width?/:height?/{.:type}?
+/bg/:background/text/:text/:width?/:height?/{.:type}?
+/textColor/:textColor/:width?/:height?/{.:type}?
+/:width?/:height?/{.:type}?
+```
+
+对于 背景色和文本颜色的 值，支持 `Hex`格式和 `RGB` 两种格式，
+
+由于 `Hex` 中的 `#` 与 路径中的`hash` 部分冲突，所以 `Hex`的值需要省略 `#`，即 `#ccc` 需要写为 `ccc`, 路径中即为 `/bg/ccc`。
+
+`RGB` 格式支持简写，可以是 `rgb(0,0,0)` 也可以是 `0,0,0`，如果图片格式支持透明度，还可以写 `rgba(0,0,0,0.5)`, 或`0,0,0,0.5`。
+
+图片格式支持： `png`, `jpe?g`, `webp`, `avif`, `heif`, `gif`, `svg`
+
+
+> 插件会严格校验 named parameters 各个值的格式是否符合要求，比如 颜色值必须符合 hex 和 rgb 的格式， width和height必须是整数。
+> 
+> 如果校验不通过，则不会生成图片，而是当做普通文本处理。
+
+
+#### query 参数
+
+query 部分是不常用的一些图片设置支持，目前主要支持了产生图片噪声。
 ```ts
 interface Query {
-  textColor: string // 文本颜色 hex | rgb | rgba
   noise: 1 | 0 // 图片噪声
   noiseMean: number // 产生噪声的像素
   noiseSigma: number // 标准偏差产生噪声的像素
@@ -78,18 +123,22 @@ interface Query {
 
 ```txt
 /image/placeholder
-/image/placeholder/300/300
-/image/placeholder.jpg
-/image/placeholder/300/300.webp
+/image/placeholder/300
+/image/placeholder/300/200
+/image/placeholder/300/300.png
+/image/placeholder/t/customText
 /image/placeholder/text/customText
+/image/placeholder/t/customText/c/0,0,0
+/image/placeholder/text/customText/textColor/0,0,0
 /image/placeholder/text/customText/bg/255,255,255
 /image/placeholder/bg/00ffcc
+/image/placeholder/bg/00ffcc/text/customText/textColor/0,0,0
 /image/placeholder/bg/fff/text/customText
 /image/placeholder/text/customText.png
 /image/placeholder/bg/fff.png
 /image/placeholder/bg/fff/400/400.png
-/image/placeholder?textColor=999
-/image/placeholder?textColor=220,220,220&noise=1&noiseMean=10
+/image/placeholder/bg/00ffcc/text/customText/textColor/0,0,0/300/200.png
+/image/placeholder?noise=1&noiseMean=10
 ```
 
 在 `html` 中
