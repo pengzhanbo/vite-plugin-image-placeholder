@@ -1,3 +1,17 @@
+## [0.2.3](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.2...v0.2.3) (2023-01-13)
+
+
+### Bug Fixes
+
+* **utils:** match rgb alpha ([247ef60](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/247ef60a16bd106df638582cd8e653a9f7c282ae))
+
+
+### Features
+
+* add path rules ([d300f8a](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/d300f8a8ab97ccdeef27382a3964a9fc673483c9))
+
+
+
 ## [0.2.2](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.1...v0.2.2) (2023-01-12)
 
 
