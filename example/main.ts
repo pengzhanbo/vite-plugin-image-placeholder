@@ -20,3 +20,8 @@ img2.src = '/image/placeholder/text/ssss2'
 
 document.body.appendChild(img1)
 document.body.appendChild(img2)
+
+// no match
+const img3 = new Image()
+img2.src = '/image/placeholder/bg/ggg'
+document.body.appendChild(img3)
