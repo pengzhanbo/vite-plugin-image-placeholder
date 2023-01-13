@@ -162,6 +162,11 @@ describe('transform in JS', () => {
       content: 'const s = "/image/" + "placeholder"',
       result: null,
     },
+    {
+      // eslint-disable-next-line no-template-curly-in-string
+      content: 'const s = `/image/placeholder/t/${name}`',
+      result: null,
+    },
   ])('transform: $content -> $result', async ({ content, result }) => {
     expect(await transform(content)).toBe(result)
   })
