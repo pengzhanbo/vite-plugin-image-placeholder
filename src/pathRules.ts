@@ -3,7 +3,7 @@ import { pathToRegexp } from 'path-to-regexp'
 export type FindPathRule = (pathname: string) => string | undefined
 
 const pattern =
-  /([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8}|(?:rgba?)?\(?\d{1,3},\s*\d{1,3},\s*\d{1,3}(?:,\s*(?:\d?\.?\d))?\)?)/
+  /([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8}|(?:rgba?)?\(?\d{1,3},\s*\d{1,3},\s*\d{1,3}(?:,\s*(?:\d?\.?\d+))?\)?)/
     .source
 
 const background = `/(bg|background)/:background${pattern}`
