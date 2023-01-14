@@ -1,3 +1,12 @@
+## [0.2.4](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.3...v0.2.4) (2023-01-14)
+
+
+### Bug Fixes
+
+* color pattern rgb alpha ([98d5b36](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/98d5b369209d4941faffc8f51a976a6fd7102051))
+
+
+
 ## [0.2.3](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.2...v0.2.3) (2023-01-13)
 
 
