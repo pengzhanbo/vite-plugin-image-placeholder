@@ -1,6 +1,7 @@
 {
   "name": "vite-plugin-image-placeholder",
   "version": "0.2.4",
+  "description": "🔥 Generate a placeholder image for the content area where the image resource is not ready.",
   "keywords": [
     "vite",
     "plugin",
@@ -32,9 +33,6 @@
     "build": "tsup",
     "dev": "DEBUG=vite:plugin-image-placeholder vite example --config ./example/vite.config.ts",
     "build:example": "DEBUG=vite:plugin-image-placeholder vite build example --config ./example/vite.config.ts",
-    "docs:build": "vitepress build docs",
-    "docs:dev": "vitepress dev docs",
-    "docs:preview": "vitepress preview docs",
     "lint": "eslint .",
     "test": "vitest run --reporter verbose",
     "prepublishOnly": "pnpm run build",
@@ -71,13 +69,6 @@
   "packageManager": "pnpm@7.18.2",
   "engines": {
     "node": "^14.18.0 || >=16"
-  },
-  "pnpm": {
-    "peerDependencyRules": {
-      "ignoreMissing": [
-        "@algolia/client-search"
-      ]
-    }
   },
   "tsup": {
     "entry": [
