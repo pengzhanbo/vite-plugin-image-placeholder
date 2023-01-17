@@ -186,14 +186,14 @@ export interface ImagePlaceholderOptions {
    *
    * 或者传入一组颜色数组，将会随机选择任意颜色作为默认背景色
    *
-   * @default '#ccc'
+   * @default '#efefef'
    *
    */
   background?: string | string[]
   /**
    * 文本默认颜色， `Hex` 或者 `RGB` 格式的值
    *
-   * @default '#333'
+   * @default '#666'
    */
   textColor?: string
   /**

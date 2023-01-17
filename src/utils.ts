@@ -45,7 +45,7 @@ export const formatColor = (
 }
 
 export const formatText = (text: string, color: string) => {
-  return `<span font-family="monospace" foreground="${color}">${text}</span>`
+  return `<span foreground="${color}">${text}</span>`
 }
 
 export const getMimeType = (type: ImageType = 'png'): string => {

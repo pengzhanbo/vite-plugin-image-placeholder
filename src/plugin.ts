@@ -15,8 +15,8 @@ export const parseOptions = (
   options = Object.assign(
     {
       prefix: 'image/placeholder',
-      background: '#ccc',
-      textColor: '#333',
+      background: '#efefef',
+      textColor: '#666',
       width: 300,
       type: 'png',
       quality: 80,

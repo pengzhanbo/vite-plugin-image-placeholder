@@ -63,6 +63,7 @@ export async function pathToImage(
   const textOptions: TextOptions = {
     dpi: Math.floor((Math.min(width, height) / 4) * 3) || 1,
     text: params.text || options.text || `${width}x${height}`,
+    font: 'Menlo, Monaco, "Courier New", monospace',
     rgba: true,
   }
 
