@@ -1,3 +1,12 @@
+## [0.2.5](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.4...v0.2.5) (2023-01-17)
+
+
+### Bug Fixes
+
+* image text options ([78b5f1b](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/78b5f1b6ab0931fa2b894bcca9f23c47fe0992c7))
+
+
+
 ## [0.2.4](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.3...v0.2.4) (2023-01-14)
 
 
