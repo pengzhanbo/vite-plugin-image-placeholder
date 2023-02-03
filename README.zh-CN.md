@@ -6,6 +6,10 @@
 </p>
 <p align="center">在项目开发过程中，为未准备好图片资源的内容区域，生成占位图片。</p>
 
+<p align="center">
+<a href="/README.md">English</a> | <span>简体中文</span>
+</p>
+
 ## 特性
 
 - 🗺 本地生成图片

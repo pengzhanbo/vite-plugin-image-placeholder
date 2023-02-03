@@ -5,7 +5,11 @@
 <img src="/example/image-placeholder.svg" alt="logo" style="margin:auto">
 </p>
 
-During project development, placeholder images are generated for content areas where no image resources are prepared.
+<p align="center">During project development, placeholder images are generated for content areas where no image resources are prepared.</p>
+
+<p align="center">
+<span>English</span> | <a href="/README.zh-CN.md">简体中文</a>
+</p>
 
 ## Features
 
