@@ -1,3 +1,7 @@
+## [0.2.6](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.5...v0.2.6) (2023-02-03)
+
+
+
 ## [0.2.5](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.4...v0.2.5) (2023-01-17)
 
 
