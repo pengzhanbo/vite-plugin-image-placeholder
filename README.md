@@ -1,41 +1,42 @@
 # vite-plugin-image-placeholder
 
-<p align="center"><b>占位图片插件。</b></p>
+<p align="center"><b>Image Placeholder Plugin</b></p>
 <p align="center">
 <img src="/example/image-placeholder.svg" alt="logo" style="margin:auto">
 </p>
 
-在项目开发过程中，为未准备好图片资源的内容区域，生成占位图片。
+During project development, placeholder images are generated for content areas where no image resources are prepared.
 
-## 特性
+## Features
 
-- 🗺 本地生成图片
-- 🎨 自定义图片宽高、背景色、文字、文字颜色
-- 🛠 自定义图片格式：`png`, `jpe?g`, `webp`, `avif`, `heif`, `gif`, `svg`
-- 🎉 灵活的路径匹配规则
+- 🗺 Generate images locally
+- 🎨 Customize image width, background color, text, text color
+- 🛠 Customize the image type`png`, `jpe?g`, `webp`, `avif`, `heif`, `gif`, `svg`
+- 🎉 Flexible path matching rules
 - 🔥 HMR
-- 🧱 支持通过模块导入
-- 📥 支持打包内联到代码中（html/css/js)
-- 📤 支持打包时图片输出到构建目录
-- 🖥 开发服务注入中间件，支持`GET`请求获取图片
+- 🧱 Support import image module  
+- 📥 Support for build inline into code（html/css/js)
+- 📤 Supports image output to build directory
+- 🖥 Develop service injection middleware that supports `GET` requests to get images
 
 
-## 安装
+## Install
 
 ```sh
 npm i -D vite-plugin-image-placeholder
 ```
 
-插件依赖 `sharp` 库生成图片资源。`sharp`在安装过程中依赖 `libvips`，在中国地区安装可能失败。解决方式是，在 项目的根目录中的 `.npmrc` 文件中，写入以下配置:
+Plugin relies on `sharp` library to generate image resources. `sharp` relies on `libvips` during installation and may fail to install in China. The solution is to write the following configuration in `.npmrc` file at the root of the project:
 
 ```conf
 sharp_binary_host=https://npmmirror.com/mirrors/sharp
 sharp_libvips_binary_host=https://npmmirror.com/mirrors/sharp-libvips
 ```
-然后重新安装插件。
+
+Then reinstall the plugin.
 
 
-## 使用
+## Usage
 ```ts
 import { defineConfig } from 'vite'
 import imagePlaceholder from 'vite-plugin-image-placeholder'
@@ -48,44 +49,46 @@ export default defineConfig(() => ({
 
 ```
 
-### 匹配规则
+### Match rules
 
-路径匹配由 [`path-to-regexp`](https://github.com/pillarjs/path-to-regexp) 提供支持。
+Path matching is supported by [`path-to-regexp`](https://github.com/pillarjs/path-to-regexp) .
 
-在一个生成占位图片的路径中，URL由`pathname` + `query` 组成。
-其中，`pathname` 由 `prefix` + `named parameters`构成，
+In a path to generate placeholder images, the URL consists of `pathname` + `query`.
+`pathname` is composed of `prefix` + `named parameters`,
 
-- `prefix` 在引入插件时配置，默认为 `image/placeholder`。
-- `named parameters` 设置占位图片的各种属性。
+- `prefix` Configured when the plugin is provided. default: `image/placeholder`。
+- `named parameters` Set the properties of the placeholder image.
 
 #### Named Parameters
 
-支持定义图片 背景色、文本内容、文本颜色、宽度、高度、图片格式
+Supports the definition of image background color, text content, text color, width, height, and image type.
 
-- 背景色： `/background/:background`, 或者 `/bg/:background`
+- background color： `/background/:background`, or `/bg/:background`
   
   exp: `/background/ccc`, `/bg/fff`, `/bg/255,255,255`
 
-- 文本内容：`/text/:text`, 或者 `/t/:text`
+- text content：`/text/:text`, or `/t/:text`
   
   exp: `/text/mark`, `/t/mark`
 
-- 文本颜色： `/textColor/:textColor`, 或者 `/color/:textColor` , 或者 `/c/:textColor` 
+- text color： `/textColor/:textColor`, or `/color/:textColor` , or `/c/:textColor` 
   
   exp: `/textColor/999`, `/color/333`, `/c/0,0,0`
 
-- 宽度、高度、图片格式： `/:width?/:height?/{.:type}?`
+- width、height、type： `/:width?/:height?/{.:type}?`
   
   exp: `/300` , `/300/200`, `/300/200.png`, `.png`, `/300.png`
 
-其中，背景色，文本内容，文本颜色 三者可以任意排列或缺省，这意味着支持：
+Background color, text content, and text color can be arranged or default, 
+which means support for:
 ```
 /text/:text/bg/:background/textColor/:textColor
 /text/:text/textColor/:textColor
 /bg/:background/text/:text
 /textColor/:textColor
 ```
-宽度、高度、图片格式 三者则固定跟随在 `pathname`的尾部：
+
+Width, height and image format are fixed at the end of `pathname` :
 ```
 /text/:text/bg/:background/textColor/:textColor/:width?/:height?/{.:type}?
 /text/:text/textColor/:textColor/:width?/:height?/{.:type}?
@@ -94,32 +97,32 @@ export default defineConfig(() => ({
 /:width?/:height?/{.:type}?
 ```
 
-对于 背景色和文本颜色的 值，支持 `Hex`格式和 `RGB` 两种格式，
+Background color and text color values support both `Hex` and `RGB` formats.
 
-由于 `Hex` 中的 `#` 与 路径中的`hash` 部分冲突，所以 `Hex`的值需要省略 `#`，即 `#ccc` 需要写为 `ccc`, 路径中即为 `/bg/ccc`。
+Since the `#` in `Hex` conflicts with the `hash` part of the path, the value of `Hex` needs to be omitted, that is, `#ccc` needs to be written as `ccc`, and the path is `/bg/ccc`.
 
-`RGB` 格式支持简写，可以是 `rgb(0,0,0)` 也可以是 `0,0,0`，如果图片格式支持透明度，还可以写 `rgba(0,0,0,0.5)`, 或`0,0,0,0.5`。
+`RGB` format support shorthand, can be `rgb(0,0,0)` can also be `0,0,0`, if the image format supports transparency, can also write `rgba(0,0,0,0.5)`, or `0,0,0,0.5`.
 
-图片格式支持： `png`, `jpe?g`, `webp`, `avif`, `heif`, `gif`, `svg`
+Image type support： `png`, `jpe?g`, `webp`, `avif`, `heif`, `gif`, `svg`
 
 
-> 插件会严格校验 named parameters 各个值的格式是否符合要求，比如 颜色值必须符合 hex 和 rgb 的格式， width和height必须是整数。
+> The plugin strictly checks whether the format of each value of the named parameters meets the requirements. For example, the color value must conform to the format of hex and rgb, and width and height must be integers.
 > 
-> 如果校验不通过，则不会生成图片，而是当做普通文本处理。
+> If the check fails, the image is not generated, but treated as normal text.
 
 
-#### query 参数
+#### query parameters
 
-query 部分是不常用的一些图片设置支持，目前主要支持了产生图片噪声。
+The query part is not commonly used some image Settings support, currently mainly support image noise.
 ```ts
 interface Query {
-  noise: 1 | 0 // 图片噪声
-  noiseMean: number // 产生噪声的像素
-  noiseSigma: number // 标准偏差产生噪声的像素
+  noise: 1 | 0 // image noise
+  noiseMean: number // image noise mean
+  noiseSigma: number // image noise sigma
 }
 ```
 
-# 示例
+# Example
 
 ```txt
 /image/placeholder
@@ -141,27 +144,27 @@ interface Query {
 /image/placeholder?noise=1&noiseMean=10
 ```
 
-在 `html` 中
+In `html`
 ```html
 <img src="/image/placeholder" alt="">
 <img src="/image/placeholder/200" alt="">
 <img src="/image/placeholder/300/200" alt="">
 ```
 
-在 `css` 中
+In `css`
 ```css
 .placeholder {
   background: url('/image/placeholder');
 }
 ```
 
-在 `js` 中通过模块导入
+In `js` , import modules
 ```js
 import placeholder from 'virtual:image/placeholder'
 const img = new Image()
 img.src = placeholder
 ```
-在 `js` 中以字符串的形式内联为 `base64`
+In `js`, Inline 'base64' as a string
 ``` js
 const img = new Image()
 img.src = '/image/placeholder'
@@ -172,38 +175,38 @@ img.src = '/image/placeholder'
 ```ts
 export interface ImagePlaceholderOptions {
   /**
-   * 图片路径前缀
+   * Picture path prefix
    *
-   * 使用模块加载时，需要通过 `virtual:${prefix}`作为模块路径前缀
+   * When using modules import, you need to pass 'virtual:${prefix}' as the module path prefix
    *
-   * 使用GET请求或字符串内联时，必须使用绝对路径，以 `/${prefix}` 作为路径前缀
+   * When using GET requests or string inlining, you must use an absolute path, prefixed with '/${prefix}' as the path
    *
    * @default 'image/placeholder'
    */
   prefix?: string
   /**
-   * 图片默认背景色，`Hex` 或者 `RGB` 格式的值
+   * image default background value of `Hex` or `RGB` 
    *
-   * 或者传入一组颜色数组，将会随机选择任意颜色作为默认背景色
+   * Passing in an array of colors will randomly select any color as the default background color
    *
    * @default '#efefef'
    *
    */
   background?: string | string[]
   /**
-   * 文本默认颜色， `Hex` 或者 `RGB` 格式的值
+   * text default color value of `Hex` or `RGB`
    *
    * @default '#666'
    */
   textColor?: string
   /**
-   * 图片默认文本
+   * text default content
    *
    * @default `${width}x${height}`
    */
   text?: string
   /**
-   * 图片默认类型
+   * image default type 
    *
    * @type 'jpg' | 'jpeg' | 'png' | 'webp' | 'avif' | 'heif' | 'gif' | 'svg'
    *
@@ -211,45 +214,50 @@ export interface ImagePlaceholderOptions {
    */
   type?: ImageType
   /**
-   * 图片默认宽度
+   * default width
    *
    * @default 300
    */
   width?: number
   /**
-   * 图片默认高度
+   * default height
+   * 
    * @default `${width}x${ratio}`
    */
   height?: number
   /**
-   * 图片宽高比，当未明确指定高度时，高度将根据 ratio 计算
+   * Image aspect ratio. When the height is not explicitly specified, 
+   * the height will be calculated according to the ratio
    *
    * @default 9/16
    */
   ratio?: number
   /**
-   * 图片压缩质量比率， 取值范围为 0~100， 100为不压缩
+   * Image compression quality ratio. The value ranges from 0 to 100. 
+   * 100 indicates that the image is not compressed
    *
    * @default 80
    */
   quality?: number
   /**
-   * png 格式图片压缩等级， 取值范围为 0~9， 0 最快但质量大，9最慢但质量小
+   * png image compression level. 
+   * The value ranges from 0 to 9. 
+   * 0 is the fastest but has high quality, and 9 is the slowest but has low quality
    *
    * @default 6
    */
   compressionLevel?: number
   /**
-   * 生产构建时是否将资源内联到代码中
+   * Whether resources are inlined into code at production build time
    *
    * @default false
    */
   inline?: boolean
 
   /**
-   * 生产构建时，输出图片资源到构建目录中
+   * When producing a build, output the image resource to the build directory
    *
-   * 如果取值为 true，默认根据 vite build 配置，输出到 dist/assets，
+   * If the value is `true`, the default configuration is based on vite build and output to `dist/assets`.
    *
    * @default true
    */
@@ -259,7 +267,8 @@ export interface ImagePlaceholderOptions {
     | {
         dir?: string
         /**
-         * 重写 filename，有时候图片资源需要发布到CDN，可以在这里修改文件名称
+         * Override filename. Sometimes image resources need to be published to CDN. 
+         * You can change the filename here
          */
         filename?: OutputFilename
       }
