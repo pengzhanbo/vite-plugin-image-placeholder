@@ -286,6 +286,9 @@ export interface OutputFile {
   ext: string
 }
 ```
+## Archives
+
+[awesome-vite](https://github.com/vitejs/awesome-vite#helpers)
 
 ## MIT
 
