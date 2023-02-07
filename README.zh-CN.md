@@ -5,6 +5,15 @@
 <img src="/example/image-placeholder.svg" alt="logo" style="margin:auto">
 </p>
 <p align="center">在项目开发过程中，为未准备好图片资源的内容区域，生成占位图片。</p>
+<br>
+<p align="center">
+<a href="https://www.npmjs.com/package/vite-plugin-image-placeholder"><img alt="npm" src="https://img.shields.io/npm/v/vite-plugin-image-placeholder?style=flat-square"></a>
+<img alt="node-current" src="https://img.shields.io/node/v/vite-plugin-image-placeholder?style=flat-square">
+<img alt="npm peer dependency version" src="https://img.shields.io/npm/dependency-version/vite-plugin-image-placeholder/peer/vite?style=flat-square">
+<img alt="GitHub" src="https://img.shields.io/github/license/pengzhanbo/vite-plugin-image-placeholder?style=flat-square">
+<img alt="npm" src="https://img.shields.io/npm/dm/vite-plugin-image-placeholder?style=flat-square">
+</p>
+<br>
 
 <p align="center">
 <a href="/README.md">English</a> | <span>简体中文</span>

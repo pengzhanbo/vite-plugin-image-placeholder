@@ -6,6 +6,16 @@
 </p>
 
 <p align="center">During project development, placeholder images are generated for content areas where no image resources are prepared.</p>
+<br>
+
+<p align="center">
+<a href="https://www.npmjs.com/package/vite-plugin-image-placeholder"><img alt="npm" src="https://img.shields.io/npm/v/vite-plugin-image-placeholder?style=flat-square"></a>
+<img alt="node-current" src="https://img.shields.io/node/v/vite-plugin-image-placeholder?style=flat-square">
+<img alt="npm peer dependency version" src="https://img.shields.io/npm/dependency-version/vite-plugin-image-placeholder/peer/vite?style=flat-square">
+<img alt="GitHub" src="https://img.shields.io/github/license/pengzhanbo/vite-plugin-image-placeholder?style=flat-square">
+<img alt="npm" src="https://img.shields.io/npm/dm/vite-plugin-image-placeholder?style=flat-square">
+</p>
+<br>
 
 <p align="center">
 <span>English</span> | <a href="/README.zh-CN.md">简体中文</a>
