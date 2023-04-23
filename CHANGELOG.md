@@ -1,3 +1,12 @@
+## [0.2.7](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.6...v0.2.7) (2023-04-23)
+
+
+### Bug Fixes
+
+* lru-cache import ([955fb18](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/955fb18020324c12e7ad8803b21535a9bdc3e15f))
+
+
+
 ## [0.2.6](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.5...v0.2.6) (2023-02-03)
 
 
