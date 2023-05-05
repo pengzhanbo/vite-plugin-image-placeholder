@@ -22,11 +22,11 @@ dependencies:
 
 devDependencies:
   '@pengzhanbo/eslint-config-ts':
-    specifier: ^0.3.6
-    version: 0.3.6(eslint@8.39.0)(prettier@2.8.8)(typescript@5.0.4)
+    specifier: ^0.3.9
+    version: 0.3.9(eslint@8.39.0)(prettier@2.8.8)(typescript@5.0.4)
   '@pengzhanbo/prettier-config':
-    specifier: ^0.3.6
-    version: 0.3.6(prettier@2.8.8)
+    specifier: ^0.3.9
+    version: 0.3.9(prettier@2.8.8)
   '@types/debug':
     specifier: ^4.1.7
     version: 4.1.7
@@ -378,8 +378,8 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@pengzhanbo/eslint-config-basic@0.3.6(@typescript-eslint/eslint-plugin@5.59.2)(@typescript-eslint/parser@5.59.2)(eslint-config-prettier@8.8.0)(eslint@8.39.0)(prettier@2.8.8):
-    resolution: {integrity: sha512-I7hnkoupC6jOyWGk0JBoeiFh1mWqMrZkTBwnYstXNuf4GwR4MW68qalAMepE9z/9oViEgj4eDz2cpIlJ5Ex+1Q==}
+  /@pengzhanbo/eslint-config-basic@0.3.9(@typescript-eslint/eslint-plugin@5.59.2)(@typescript-eslint/parser@5.59.2)(eslint-config-prettier@8.8.0)(eslint@8.39.0)(prettier@2.8.8):
+    resolution: {integrity: sha512-s8MHgCPPcGy+rKC0zcceOparsu3a+7jzTupLs3wfhpB3jz6+G3ElhgfG+TOYr35iW7gj7ZSFt8RHmBbF9uzYEg==}
     peerDependencies:
       eslint: '>=7.4.0'
     dependencies:
@@ -409,8 +409,8 @@ packages:
       - supports-color
     dev: true
 
-  /@pengzhanbo/eslint-config-ts@0.3.6(eslint@8.39.0)(prettier@2.8.8)(typescript@5.0.4):
-    resolution: {integrity: sha512-AN120m6O24yM1rdlAZwI8F9JWdl2uQo/aDOQiFYf8CD6zIDR596OiamZo0ZAmrcOcga1b6U06F2G2/ALbCU1/g==}
+  /@pengzhanbo/eslint-config-ts@0.3.9(eslint@8.39.0)(prettier@2.8.8)(typescript@5.0.4):
+    resolution: {integrity: sha512-IUGqI8xjTB0s+bLe51jiXAzTfob6ttvgUcSzMcqzYGdhbnAAwuPIdlJ/K1PHCxdoxba8CGmpkhqBAe+IP/YugQ==}
     peerDependencies:
       eslint: '>=7.4.0'
       prettier: '>=2.7.1'
@@ -419,7 +419,7 @@ packages:
       prettier:
         optional: true
     dependencies:
-      '@pengzhanbo/eslint-config-basic': 0.3.6(@typescript-eslint/eslint-plugin@5.59.2)(@typescript-eslint/parser@5.59.2)(eslint-config-prettier@8.8.0)(eslint@8.39.0)(prettier@2.8.8)
+      '@pengzhanbo/eslint-config-basic': 0.3.9(@typescript-eslint/eslint-plugin@5.59.2)(@typescript-eslint/parser@5.59.2)(eslint-config-prettier@8.8.0)(eslint@8.39.0)(prettier@2.8.8)
       '@typescript-eslint/eslint-plugin': 5.59.2(@typescript-eslint/parser@5.59.2)(eslint@8.39.0)(typescript@5.0.4)
       '@typescript-eslint/parser': 5.59.2(eslint@8.39.0)(typescript@5.0.4)
       eslint: 8.39.0
@@ -443,8 +443,8 @@ packages:
       - supports-color
     dev: true
 
-  /@pengzhanbo/prettier-config@0.3.6(prettier@2.8.8):
-    resolution: {integrity: sha512-1ocxEIrFfxFVtq6Ijxn3KRld9RPTA7kvUlSW2MIx1/uCBXPNI5PzHjSc2/H3DmuZZGn4qXP4G43Ys0udcOptHg==}
+  /@pengzhanbo/prettier-config@0.3.9(prettier@2.8.8):
+    resolution: {integrity: sha512-IfmB7saKZdclH1BWIZ4HzMJhOg8ayJjYf/u4P52a80Hdx0jwULQs5tfiKlsUihbKY+xbQCA370Yfs5Ob01hhiQ==}
     peerDependencies:
       prettier: ^2.7.1
     dependencies:
@@ -575,6 +575,8 @@ packages:
       eslint: '*'
       typescript: '*'
     peerDependenciesMeta:
+      eslint:
+        optional: true
       typescript:
         optional: true
     dependencies:
@@ -619,6 +621,9 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
+    peerDependenciesMeta:
+      eslint:
+        optional: true
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.39.0)
       '@types/json-schema': 7.0.11
