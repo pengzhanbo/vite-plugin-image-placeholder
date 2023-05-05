@@ -175,6 +175,7 @@ In `css`
 In `js` , import modules
 ```js
 import placeholder from 'virtual:image/placeholder'
+
 const img = new Image()
 img.src = placeholder
 ```

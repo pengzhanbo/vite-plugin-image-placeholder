@@ -170,6 +170,7 @@ interface Query {
 在 `js` 中通过模块导入
 ```js
 import placeholder from 'virtual:image/placeholder'
+
 const img = new Image()
 img.src = placeholder
 ```

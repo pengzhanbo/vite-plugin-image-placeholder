@@ -2,6 +2,7 @@
  * 这个测试文件对 `plugin.ts` 中的 `transformPlaceholder` 函数进行测试，
  * 用于检查可能的各种输入是否能被正确匹配并替换
  */
+import { Buffer } from 'node:buffer'
 import type { ResolvedConfig } from 'vite'
 import { describe, expect, test, vi } from 'vitest'
 import { createPathRuleMatch } from '../src/pathRules'

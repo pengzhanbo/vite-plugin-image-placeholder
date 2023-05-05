@@ -1,3 +1,4 @@
+import { Buffer } from 'node:buffer'
 import { parse as urlParse } from 'node:url'
 import { match } from 'path-to-regexp'
 import type { Create, CreateText } from 'sharp'

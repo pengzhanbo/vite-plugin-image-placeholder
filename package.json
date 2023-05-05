@@ -46,22 +46,22 @@
     "magic-string": "^0.30.0",
     "path-to-regexp": "^6.2.1",
     "rgb-hex": "^4.0.1",
-    "sharp": "^0.32.0"
+    "sharp": "^0.32.1"
   },
   "devDependencies": {
-    "@pengzhanbo/eslint-config-ts": "^0.3.4",
-    "@pengzhanbo/prettier-config": "^0.3.4",
+    "@pengzhanbo/eslint-config-ts": "^0.3.6",
+    "@pengzhanbo/prettier-config": "^0.3.5",
     "@types/debug": "^4.1.7",
-    "@types/node": "^18.16.0",
-    "@types/sharp": "^0.31.1",
+    "@types/node": "^18.16.4",
+    "@types/sharp": "^0.32.0",
     "bumpp": "^9.1.0",
     "conventional-changelog-cli": "^2.2.2",
     "eslint": "^8.39.0",
     "prettier": "^2.8.8",
     "tsup": "^6.7.0",
     "typescript": "^5.0.4",
-    "vite": "^4.3.1",
-    "vitest": "^0.30.1"
+    "vite": "^4.3.4",
+    "vitest": "^0.31.0"
   },
   "peerDependencies": {
     "vite": ">=3.0.0"
