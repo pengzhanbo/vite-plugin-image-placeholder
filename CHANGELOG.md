@@ -1,3 +1,12 @@
+## [0.2.8](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.7...v0.2.8) (2023-05-08)
+
+
+### Features
+
+* update cache strategy ([bf52545](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/bf525451d55c605d50afc36c97475fd20f6c8997))
+
+
+
 ## [0.2.7](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.6...v0.2.7) (2023-04-23)
 
 
