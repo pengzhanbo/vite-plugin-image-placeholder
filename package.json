@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-image-placeholder",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "description": "🔥 Generate a placeholder image for the content area where the image resource is not ready.",
   "keywords": [
     "vite",
