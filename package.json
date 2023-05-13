@@ -42,9 +42,9 @@
   "prettier": "@pengzhanbo/prettier-config",
   "dependencies": {
     "debug": "^4.3.4",
+    "lru-cache": "^9.1.1",
     "magic-string": "^0.30.0",
     "path-to-regexp": "^6.2.1",
-    "quick-lru": "^6.1.1",
     "rgb-hex": "^4.0.1",
     "sharp": "^0.32.1"
   },
