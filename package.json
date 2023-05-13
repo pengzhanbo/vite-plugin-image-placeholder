@@ -1,6 +1,6 @@
 {
   "name": "vite-plugin-image-placeholder",
-  "version": "0.2.10",
+  "version": "0.2.11",
   "description": "🔥 Generate a placeholder image for the content area where the image resource is not ready.",
   "keywords": [
     "vite",
@@ -19,8 +19,8 @@
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.js"
     }
   },
   "main": "dist/index.cjs",
