@@ -1,3 +1,12 @@
+## [0.2.9](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.8...v0.2.9) (2023-05-13)
+
+
+### Performance Improvements
+
+* replace `quick-lru` to `lru-cache` ([ae040c1](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/ae040c1fe2595ca414d0bd33b4a4400538b96a90))
+
+
+
 ## [0.2.8](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.7...v0.2.8) (2023-05-08)
 
 
