@@ -1,4 +1,5 @@
 import debug from 'debug'
+import colors from 'picocolors'
 import rbg2hex from 'rgb-hex'
 import { imageMimeType } from './constants'
 import type { ImageType } from './types'
@@ -67,3 +68,11 @@ export const isHTMLRequest = (request: string) => htmlLangRE.test(request)
 const nonJsRe = /\.json(?:$|\?)/
 export const isNonJsRequest = (request: string): boolean =>
   nonJsRe.test(request)
+
+export const imageWarn = (url: string) => {
+  console.warn(
+    `${colors.yellow('[vite:image-placeholder] warn')}: ${colors.gray(
+      url,
+    )} The URL does not generate images correctly. Please check the URL.`,
+  )
+}

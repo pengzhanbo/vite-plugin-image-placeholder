@@ -7,7 +7,7 @@ import { createPathRuleMatch } from './pathRules'
 import { pathToImage } from './pathToImage'
 import { bufferToBase64, bufferToFile } from './transformBuffer'
 import type { ImagePlaceholderOptions, PluginContext } from './types'
-import { getMimeType, isHTMLRequest, isNonJsRequest } from './utils'
+import { getMimeType, imageWarn, isHTMLRequest, isNonJsRequest } from './utils'
 
 export const parseOptions = (
   options: ImagePlaceholderOptions,
@@ -73,7 +73,10 @@ function placeholderServerPlugin(
 
         const image = await pathToImage(url, findPathRule, opts)
 
-        if (!image) return next()
+        if (!image) {
+          imageWarn(url)
+          return next()
+        }
 
         res.setHeader('Accept-Ranges', 'bytes')
         res.setHeader('Content-Type', getMimeType(image.type))
@@ -132,6 +135,8 @@ function placeholderImporterPlugin(
           }
           contentCache.set(url, content)
           return `export default '${content}'`
+        } else {
+          imageWarn(url)
         }
       }
     },
@@ -245,6 +250,8 @@ export async function transformPlaceholder(
         }
         contentCache.set(url, content)
         s.update(start, end, `${dynamic[0]}${content}${dynamic[1]}`)
+      } else {
+        imageWarn(url)
       }
     }
   }
