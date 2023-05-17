@@ -1,3 +1,18 @@
+# [0.3.0](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.11...v0.3.0) (2023-05-17)
+
+
+### Features
+
+* add image error log ([95ddf38](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/95ddf3881ed604b997e57f609a4a2971f3b49182))
+
+
+### Performance Improvements
+
+* add types comments ([fc38a28](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/fc38a285cd43023f30b939b7b4fff2818c74af6d))
+* optimize path match rule ([d3e9ec8](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/d3e9ec84d283becaa8e26e44d259437419969d8a))
+
+
+
 ## [0.2.11](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.10...v0.2.11) (2023-05-13)
 
 
