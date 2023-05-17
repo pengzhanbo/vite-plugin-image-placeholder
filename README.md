@@ -26,7 +26,7 @@
 - 🗺 Generate images locally
 - 🎨 Customize image width, background color, text, text color
 - 🛠 Customize the image type`png`, `jpe?g`, `webp`, `avif`, `heif`, `gif`, `svg`
-- 🎉 Flexible path matching rules
+- 🎉 Flexible path-matching rules
 - 🔥 HMR
 - 🧱 Support import image module  
 - 📥 Support for build inline into code（html/css/js)
@@ -301,6 +301,6 @@ export interface OutputFile {
 
 [awesome-vite](https://github.com/vitejs/awesome-vite#helpers)
 
-## MIT
+## LICENSE
 
-[GPL-3.0](/LICENSE)
+[MIT](/LICENSE)
