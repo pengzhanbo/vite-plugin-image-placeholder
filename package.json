@@ -19,8 +19,14 @@
   "type": "module",
   "exports": {
     ".": {
-      "require": "./dist/index.cjs",
-      "import": "./dist/index.js"
+      "require": {
+        "default": "./dist/index.cjs",
+        "types": "./dist/index.d.cts"
+      },
+      "import": {
+        "default": "./dist/index.js",
+        "types": "./dist/index.d.ts"
+      }
     }
   },
   "main": "dist/index.cjs",
@@ -42,7 +48,7 @@
   "prettier": "@pengzhanbo/prettier-config",
   "dependencies": {
     "debug": "^4.3.4",
-    "lru-cache": "^9.1.1",
+    "lru-cache": "^10.0.0",
     "magic-string": "^0.30.0",
     "path-to-regexp": "^6.2.1",
     "picocolors": "^1.0.0",
@@ -50,38 +56,25 @@
     "sharp": "^0.32.1"
   },
   "devDependencies": {
-    "@pengzhanbo/eslint-config": "^0.3.13",
-    "@pengzhanbo/prettier-config": "^0.3.13",
+    "@pengzhanbo/eslint-config": "^0.3.15",
+    "@pengzhanbo/prettier-config": "^0.3.15",
     "@types/debug": "^4.1.8",
-    "@types/node": "^18.16.16",
+    "@types/node": "^18.16.19",
     "@types/sharp": "^0.32.0",
-    "bumpp": "^9.1.0",
-    "conventional-changelog-cli": "^2.2.2",
-    "eslint": "^8.41.0",
+    "bumpp": "^9.1.1",
+    "conventional-changelog-cli": "^3.0.0",
+    "eslint": "^8.44.0",
     "prettier": "^2.8.8",
-    "tsup": "^6.7.0",
-    "typescript": "^5.0.4",
+    "tsup": "^7.1.0",
+    "typescript": "^5.1.6",
     "vite": "^4.3.9",
-    "vitest": "^0.31.4"
+    "vitest": "^0.32.2"
   },
   "peerDependencies": {
     "vite": ">=3.0.0"
   },
-  "packageManager": "pnpm@8.3.1",
+  "packageManager": "pnpm@8.6.5",
   "engines": {
     "node": "^14.18.0 || >=16"
-  },
-  "tsup": {
-    "entry": [
-      "src/index.ts"
-    ],
-    "sourcemap": false,
-    "dts": true,
-    "splitting": false,
-    "clean": true,
-    "format": [
-      "esm",
-      "cjs"
-    ]
   }
 }

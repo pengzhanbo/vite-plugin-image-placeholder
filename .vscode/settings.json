@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["libvips", "middlewares", "npmrc", "picocolors"]
+  "cSpell.words": ["libvips", "middlewares", "npmrc", "picocolors"],
+  "typescript.tsdk": "node_modules/typescript/lib"
 }
