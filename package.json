@@ -49,7 +49,7 @@
   "dependencies": {
     "debug": "^4.3.4",
     "lru-cache": "^10.0.0",
-    "magic-string": "^0.30.0",
+    "magic-string": "^0.30.1",
     "path-to-regexp": "^6.2.1",
     "picocolors": "^1.0.0",
     "rgb-hex": "^4.0.1",
@@ -68,12 +68,12 @@
     "tsup": "^7.1.0",
     "typescript": "^5.1.6",
     "vite": "^4.3.9",
-    "vitest": "^0.32.2"
+    "vitest": "^0.32.4"
   },
   "peerDependencies": {
     "vite": ">=3.0.0"
   },
-  "packageManager": "pnpm@8.6.5",
+  "packageManager": "pnpm@8.6.6",
   "engines": {
     "node": "^14.18.0 || >=16"
   }
