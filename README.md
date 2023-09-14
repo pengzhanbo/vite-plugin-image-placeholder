@@ -13,7 +13,7 @@
 <img alt="node-current" src="https://img.shields.io/node/v/vite-plugin-image-placeholder?style=flat-square">
 <img alt="npm peer dependency version" src="https://img.shields.io/npm/dependency-version/vite-plugin-image-placeholder/peer/vite?style=flat-square">
 <img alt="GitHub" src="https://img.shields.io/github/license/pengzhanbo/vite-plugin-image-placeholder?style=flat-square">
-<img alt="npm" src="https://img.shields.io/npm/dm/vite-plugin-image-placeholder?style=flat-square">
+<img alt="npm" src="https://img.shields.io/npm/dt/vite-plugin-image-placeholder?style=flat-square">
 </p>
 <br>
 
