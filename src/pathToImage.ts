@@ -1,5 +1,4 @@
 import { Buffer } from 'node:buffer'
-import { parse as urlParse } from 'node:url'
 import { match } from 'path-to-regexp'
 import type { Create, CreateText } from 'sharp'
 import sharp from 'sharp'
@@ -12,7 +11,7 @@ import type {
   ImagePlaceholderQuery,
   ImageType,
 } from './types'
-import { formatColor, formatText, getBackground } from './utils'
+import { formatColor, formatText, getBackground, urlParse } from './utils'
 
 export type CreateOptions = Create
 
@@ -23,14 +22,16 @@ export async function pathToImage(
   findPathRule: FindPathRule,
   options: Required<ImagePlaceholderOptions>,
 ): Promise<ImageCacheItem | undefined> {
-  if (bufferCache.has(url)) {
+  if (bufferCache.has(url))
     return bufferCache.get(url)
-  }
-  const { query: urlQuery, pathname } = urlParse(url, true)
+
+  const { query: urlQuery, pathname } = urlParse(url)
 
   const rule = findPathRule(pathname!)
 
-  if (!rule) return
+  if (!rule)
+    return
+
   const urlMatch = match(rule, { decode: decodeURIComponent })(pathname!) || {
     params: {
       width: options.width,
@@ -83,7 +84,8 @@ export async function pathToImage(
     }
     bufferCache.set(url, result)
     return result
-  } catch (e) {
+  }
+  catch (e) {
     console.error(e)
   }
 }
@@ -103,9 +105,9 @@ export async function createImage({
   compressionLevel: number
   textColor: string
 }) {
-  if (type === 'svg') {
+  if (type === 'svg')
     return createSVG(create, text.text, textColor)
-  }
+
   let image = sharp({ create })
 
   text.text = formatText(text.text, textColor)
@@ -121,7 +123,7 @@ export async function createImage({
       image = image.webp({ quality })
       break
     case 'heif':
-      image = image.heif({ quality })
+      image = image.heif({ quality, compression: 'av1' })
       break
     case 'avif':
       image = image.avif({ quality })
