@@ -1,7 +1,15 @@
 {
   "name": "vite-plugin-image-placeholder",
+  "type": "module",
   "version": "0.3.0",
+  "packageManager": "pnpm@8.11.0",
   "description": "🔥 Generate a placeholder image for the content area where the image resource is not ready.",
+  "author": "pengzhanbo <q942450674@outlook.com> (https://github.com/pengzhanbo)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pengzhanbo/vite-plugin-image-placeholder"
+  },
   "keywords": [
     "vite",
     "plugin",
@@ -10,22 +18,15 @@
     "placeholder",
     "image-placeholder"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/pengzhanbo/vite-plugin-image-placeholder"
-  },
-  "license": "MIT",
-  "author": "pengzhanbo <q942450674@outlook.com> (https://github.com/pengzhanbo)",
-  "type": "module",
   "exports": {
     ".": {
-      "require": {
-        "default": "./dist/index.cjs",
-        "types": "./dist/index.d.cts"
-      },
       "import": {
-        "default": "./dist/index.js",
-        "types": "./dist/index.d.ts"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
       }
     }
   },
@@ -35,6 +36,9 @@
   "files": [
     "dist"
   ],
+  "engines": {
+    "node": "^16.0.0 || ^18.0.0 || >=20.0.0"
+  },
   "scripts": {
     "build": "tsup",
     "dev": "DEBUG=vite:plugin-image-placeholder vite example --config ./example/vite.config.ts",
@@ -45,36 +49,29 @@
     "release:changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "release": "bumpp package.json --execute=\"pnpm release:changelog\" --commit --all --push --tag && pnpm publish --access public"
   },
-  "prettier": "@pengzhanbo/prettier-config",
-  "dependencies": {
-    "debug": "^4.3.4",
-    "lru-cache": "^10.0.1",
-    "magic-string": "^0.30.2",
-    "path-to-regexp": "^6.2.1",
-    "picocolors": "^1.0.0",
-    "rgb-hex": "^4.0.1",
-    "sharp": "^0.32.4"
-  },
-  "devDependencies": {
-    "@pengzhanbo/eslint-config": "^0.4.2",
-    "@pengzhanbo/prettier-config": "^0.4.2",
-    "@types/debug": "^4.1.8",
-    "@types/node": "^20.5.0",
-    "@types/sharp": "^0.32.0",
-    "bumpp": "^9.1.1",
-    "conventional-changelog-cli": "^3.0.0",
-    "eslint": "^8.47.0",
-    "prettier": "^3.0.1",
-    "tsup": "^7.2.0",
-    "typescript": "^5.1.6",
-    "vite": "^4.4.9",
-    "vitest": "^0.34.1"
-  },
   "peerDependencies": {
     "vite": ">=3.0.0"
   },
-  "packageManager": "pnpm@8.6.12",
-  "engines": {
-    "node": "^14.18.0 || >=16"
+  "dependencies": {
+    "debug": "^4.3.4",
+    "lru-cache": "^10.1.0",
+    "magic-string": "^0.30.5",
+    "path-to-regexp": "^6.2.1",
+    "picocolors": "^1.0.0",
+    "rgb-hex": "^4.1.0",
+    "sharp": "^0.33.0"
+  },
+  "devDependencies": {
+    "@pengzhanbo/eslint-config": "^1.2.4",
+    "@types/debug": "^4.1.12",
+    "@types/node": "^20.10.2",
+    "@types/sharp": "^0.32.0",
+    "bumpp": "^9.2.0",
+    "conventional-changelog-cli": "^4.1.0",
+    "eslint": "^8.55.0",
+    "tsup": "^8.0.1",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.4",
+    "vitest": "^0.34.6"
   }
 }
