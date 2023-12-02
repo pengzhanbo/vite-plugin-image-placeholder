@@ -1,15 +1,15 @@
 {
   "compilerOptions": {
+    "lib": ["ESNext"],
     "baseUrl": ".",
+    "module": "ESNext",
     "moduleResolution": "node",
     "strict": true,
-    "declaration": true,
     "noUnusedLocals": true,
-    "esModuleInterop": true,
-    "module": "ESNext",
-    "lib": ["ESNext"],
+    "declaration": true,
+    "noEmitOnError": true,
     "sourceMap": false,
-    "noEmitOnError": true
+    "esModuleInterop": true
   },
   "include": ["./src"],
   "exclude": ["dist", "node_modules"]

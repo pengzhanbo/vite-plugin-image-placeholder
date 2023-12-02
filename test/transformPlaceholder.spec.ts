@@ -4,7 +4,7 @@
  */
 import { Buffer } from 'node:buffer'
 import type { ResolvedConfig } from 'vite'
-import { describe, expect, test, vi } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { createPathRuleMatch } from '../src/pathRules'
 import {
   createPlaceholderPattern,
@@ -47,7 +47,7 @@ describe('transform in HTML', () => {
         build: { assetsInlineLimit: 4096 },
       } as ResolvedConfig,
     )
-  test.each([
+  it.each([
     { content: '', result: null },
     {
       content: '<img src="image/placeholder">',
@@ -109,7 +109,7 @@ describe('transform in CSS', () => {
         build: { assetsInlineLimit: 4096 },
       } as ResolvedConfig,
     )
-  test.each([
+  it.each([
     {
       content: '.img{background: url(/image/placeholder)}',
       result: '.img{background: url("[image-placeholder]")}',
@@ -119,7 +119,7 @@ describe('transform in CSS', () => {
       result: '.img{background: url("[image-placeholder]")}',
     },
     {
-      content: ".img{background: url('/image/placeholder')}",
+      content: '.img{background: url(\'/image/placeholder\')}',
       result: '.img{background: url("[image-placeholder]")}',
     },
     {
@@ -146,7 +146,7 @@ describe('transform in JS', () => {
         build: { assetsInlineLimit: 4096 },
       } as ResolvedConfig,
     )
-  test.each([
+  it.each([
     {
       content: 'const s = "/image/placeholder"',
       result: 'const s = "[image-placeholder]"',
@@ -188,7 +188,7 @@ describe('transform in Vue', () => {
         build: { assetsInlineLimit: 4096 },
       } as ResolvedConfig,
     )
-  test.each([
+  it.each([
     {
       content: `<template>
       <img src="/image/placeholder">

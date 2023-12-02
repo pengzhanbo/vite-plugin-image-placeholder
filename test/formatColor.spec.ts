@@ -1,8 +1,8 @@
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { formatColor } from '../src/utils'
 
-describe('Color to Hex', () => {
-  test.each([
+describe('color to Hex', () => {
+  it.each([
     ['ccc', '#ccc'],
     ['#ccc', '#ccc'],
     ['cccccc', '#cccccc'],
@@ -17,8 +17,8 @@ describe('Color to Hex', () => {
   })
 })
 
-describe('RGB Like to RGB', () => {
-  test.each([
+describe('rGB Like to RGB', () => {
+  it.each([
     ['255,255,255', 'rgb(255,255,255)'],
     ['255, 255, 255', 'rgb(255,255,255)'],
     ['255,255,255,1', 'rgba(255,255,255,1)'],

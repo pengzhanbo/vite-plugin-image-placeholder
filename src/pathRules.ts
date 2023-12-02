@@ -2,8 +2,8 @@ import { pathToRegexp } from 'path-to-regexp'
 
 export type FindPathRule = (pathname: string) => string | undefined
 
-const pattern =
-  /([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8}|rgba?\(\d{1,3},\s*\d{1,3},\s*\d{1,3}(?:,\s*\d?\.?\d+)?\)|\d{1,3},\s*\d{1,3}?,\s*\d{1,3}?(?:,\s*\d?\.?\d+)?)/
+const pattern
+  = /([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8}|rgba?\(\d{1,3},\s*\d{1,3},\s*\d{1,3}(?:,\s*\d?\.?\d+)?\)|\d{1,3},\s*\d{1,3}?,\s*\d{1,3}?(?:,\s*\d?\.?\d+)?)/
     .source
 
 const background = `/(bg|background)/:background${pattern}`
@@ -29,13 +29,13 @@ export function generatePathRules(prefix: string) {
     text,
     textColor,
     '',
-  ].map((_) => `${prefix}${_}${last}`)
+  ].map(_ => `${prefix}${_}${last}`)
 }
 
 export function createPathRuleMatch(prefix: string): FindPathRule {
-  const rules = generatePathRules(prefix).map((rule) => ({
+  const rules = generatePathRules(prefix).map(rule => ({
     regexp: pathToRegexp(rule),
     rule,
   }))
-  return (pathname) => rules.find(({ regexp }) => regexp.test(pathname))?.rule
+  return pathname => rules.find(({ regexp }) => regexp.test(pathname))?.rule
 }

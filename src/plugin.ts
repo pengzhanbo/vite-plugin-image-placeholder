@@ -9,9 +9,7 @@ import { bufferToBase64, bufferToFile } from './transformBuffer'
 import type { ImagePlaceholderOptions, PluginContext } from './types'
 import { getMimeType, imageWarn, isHTMLRequest, isNonJsRequest } from './utils'
 
-export const parseOptions = (
-  options: ImagePlaceholderOptions,
-): Required<ImagePlaceholderOptions> => {
+export function parseOptions(options: ImagePlaceholderOptions): Required<ImagePlaceholderOptions> {
   options = Object.assign(
     {
       prefix: 'image/placeholder',
@@ -31,25 +29,24 @@ export const parseOptions = (
   return options as Required<ImagePlaceholderOptions>
 }
 
-const parseOutput = (
-  output: Required<ImagePlaceholderOptions>['output'],
-  config: ResolvedConfig,
-) => {
+function parseOutput(output: Required<ImagePlaceholderOptions>['output'], config: ResolvedConfig) {
   const { assetsDir } = config.build
   let assets
   let filename
   if (output === true) {
     assets = assetsDir
-  } else if (typeof output === 'string') {
+  }
+  else if (typeof output === 'string') {
     assets = output.replace(/^\/+/, '')
-  } else {
+  }
+  else {
     assets = (output!.dir || assetsDir).replace(/^\/+/, '')
     filename = output.filename
   }
   return { assetsDir: assets, filename }
 }
 
-export const createPlaceholderPattern = (prefix: string) => {
+export function createPlaceholderPattern(prefix: string) {
   const s = `(${prefix}.*?)`
   return new RegExp(
     `(?:"${s}")|(?:\\(${s}\\))|(?:\\('${s}'\\))|(?:\\("${s}"\\))`,
@@ -67,9 +64,10 @@ function placeholderServerPlugin(
     name: 'vite-plugin-image-placeholder-server',
     apply: 'serve',
     async configureServer({ middlewares }) {
-      middlewares.use(async function (req, res, next) {
+      middlewares.use(async (req, res, next) => {
         const url = req.url!
-        if (!url.startsWith(opts.prefix)) return next()
+        if (!url.startsWith(opts.prefix))
+          return next()
 
         const image = await pathToImage(url, findPathRule, opts)
 
@@ -104,23 +102,22 @@ function placeholderImporterPlugin(
       isBuild = config.command === 'build'
     },
     resolveId(id) {
-      if (id.startsWith(moduleId)) {
+      if (id.startsWith(moduleId))
         return `\0${id}`
-      }
     },
     async load(id) {
       if (id.startsWith(resolveVirtualModuleId)) {
         const url = `/${id.replace(RE_VIRTUAL, '')}`
-        if (contentCache.has(url)) {
+        if (contentCache.has(url))
           return `export default '${contentCache.get(url)!}'`
-        }
+
         const image = await pathToImage(url, findPathRule, opts)
         if (image) {
           let content: string
           if (
-            isBuild &&
-            opts.output &&
-            image.buffer.byteLength >= config.build.assetsInlineLimit
+            isBuild
+            && opts.output
+            && image.buffer.byteLength >= config.build.assetsInlineLimit
           ) {
             const { assetsDir, filename } = parseOutput(opts.output, config)
             content = await bufferToFile(
@@ -130,12 +127,14 @@ function placeholderImporterPlugin(
               assetsDir,
               filename,
             )
-          } else {
+          }
+          else {
             content = bufferToBase64(image)
           }
           contentCache.set(url, content)
           return `export default '${content}'`
-        } else {
+        }
+        else {
           imageWarn(url)
         }
       }
@@ -161,24 +160,24 @@ function placeholderTransformPlugin(
       isBuild = config.command === 'build'
     },
     async transform(code, id) {
-      // eslint-disable-next-line @typescript-eslint/no-this-alias
+      // eslint-disable-next-line ts/no-this-alias
       ctx = this
       // 构建时如果未配置 inline 和 output， 则不转换，直接跳过
-      if (isBuild && !opts.inline && !opts.output) {
+      if (isBuild && !opts.inline && !opts.output)
         return
-      }
+
       // 开发环境不对css转换，因为CSS可以直接通过 GET请求获取资源，
       // 跳过html资源，在transformIndexHtml中转换，开发环境时也是通过 GET请求获取，
       // 优化性能，跳过非js资源和 assets 资源
       if (
-        (!isBuild && isCSSRequest(id)) ||
-        isHTMLRequest(id) ||
-        isNonJsRequest(id) ||
-        config.assetsInclude(id) ||
-        id.startsWith(resolveVirtualModuleId)
-      ) {
+        (!isBuild && isCSSRequest(id))
+        || isHTMLRequest(id)
+        || isNonJsRequest(id)
+        || config.assetsInclude(id)
+        || id.startsWith(resolveVirtualModuleId)
+      )
         return
-      }
+
       const result = await transformPlaceholder(
         ctx,
         code,
@@ -191,8 +190,10 @@ function placeholderTransformPlugin(
       return result ? { code: result } : null
     },
     async transformIndexHtml(html) {
-      if (!isBuild) return html
-      if (!opts.inline && !opts.output) return html
+      if (!isBuild)
+        return html
+      if (!opts.inline && !opts.output)
+        return html
       const result = await transformPlaceholder(
         ctx,
         html,
@@ -227,15 +228,16 @@ export async function transformPlaceholder(
     if (contentCache.has(url)) {
       hasReplaced = true
       s.update(start, end, `${dynamic[0]}${contentCache.get(url)}${dynamic[1]}`)
-    } else {
+    }
+    else {
       const image = await pathToImage(url, findPathRule, opts)
       if (image) {
         hasReplaced = true
         let content: string
         if (
-          opts.output &&
-          image.buffer.byteLength >= config.build.assetsInlineLimit &&
-          config.command === 'build'
+          opts.output
+          && image.buffer.byteLength >= config.build.assetsInlineLimit
+          && config.command === 'build'
         ) {
           const { assetsDir, filename } = parseOutput(opts.output, config)
           content = await bufferToFile(
@@ -245,19 +247,21 @@ export async function transformPlaceholder(
             assetsDir,
             filename,
           )
-        } else {
+        }
+        else {
           content = bufferToBase64(image)
         }
         contentCache.set(url, content)
         s.update(start, end, `${dynamic[0]}${content}${dynamic[1]}`)
-      } else {
+      }
+      else {
         imageWarn(url)
       }
     }
   }
-  if (!hasReplaced) {
+  if (!hasReplaced)
     return null
-  }
+
   return s.toString()
 }
 

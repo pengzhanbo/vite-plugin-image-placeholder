@@ -105,15 +105,15 @@ export interface ImagePlaceholderOptions {
     | true
     | string
     | {
-        dir?: string
-        /**
-         * Rewrite filename. Sometimes image resources need to be published on CDN,
-         * and you can modify the file name here.
-         *
-         * 重写 filename，有时候图片资源需要发布到CDN，可以在这里修改文件名称
-         */
-        filename?: OutputFilename
-      }
+      dir?: string
+      /**
+       * Rewrite filename. Sometimes image resources need to be published on CDN,
+       * and you can modify the file name here.
+       *
+       * 重写 filename，有时候图片资源需要发布到CDN，可以在这里修改文件名称
+       */
+      filename?: OutputFilename
+    }
 }
 
 export type OutputFilename = (filename: string, file: OutputFile) => string

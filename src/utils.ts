@@ -1,3 +1,5 @@
+import { parse as queryParse } from 'node:querystring'
+import { URL } from 'node:url'
 import debug from 'debug'
 import colors from 'picocolors'
 import rbg2hex from 'rgb-hex'
@@ -6,12 +8,12 @@ import type { ImageType } from './types'
 
 export const logger = debug('vite:plugin-image-placeholder')
 
-export const RE_RGBA =
-  /^(?:rgba?\()?(\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})(?:,\s*(\d?\.?\d+))?(?:\))?$/
+export const RE_RGBA
+  = /^(?:rgba?\()?(\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})(?:,\s*(\d?\.?\d+))?(?:\))?$/
 
 export const RE_HEX = /^#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/
 
-export const formatRGBA = (colors: string[]) => {
+export function formatRGBA(colors: string[]) {
   const alpha = colors[3]
     ? colors[3].startsWith('.')
       ? `0${colors[3]}`
@@ -22,16 +24,13 @@ export const formatRGBA = (colors: string[]) => {
     : `rgba(${colors[0]},${colors[1]},${colors[2]},${alpha})`
 }
 
-export const formatColor = (
-  color: string | string[] = '',
-  hex = false,
-): string => {
-  if (Array.isArray(color)) {
+export function formatColor(color: string | string[] = '', hex = false): string {
+  if (Array.isArray(color))
     return hex ? `#${rbg2hex(formatRGBA(color))}` : formatRGBA(color)
-  }
-  if (RE_HEX.test(color)) {
+
+  if (RE_HEX.test(color))
     return color.startsWith('#') ? color : `#${color}`
-  }
+
   const match = color.match(RE_RGBA)
   if (match) {
     const alpha = match[4]
@@ -45,18 +44,18 @@ export const formatColor = (
   return color
 }
 
-export const formatText = (text: string, color: string) => {
+export function formatText(text: string, color: string) {
   return `<span foreground="${color}">${text}</span>`
 }
 
-export const getMimeType = (type: ImageType = 'png'): string => {
+export function getMimeType(type: ImageType = 'png'): string {
   return imageMimeType[type] || imageMimeType.png
 }
 
-export const getBackground = (background: string | string[]) => {
-  if (typeof background === 'string') {
+export function getBackground(background: string | string[]) {
+  if (typeof background === 'string')
     return background
-  }
+
   const rdm = Math.floor(Math.random() * background.length)
   return background[rdm]
 }
@@ -66,13 +65,21 @@ const htmlLangRE = /\.(?:html|htm)$/
 export const isHTMLRequest = (request: string) => htmlLangRE.test(request)
 
 const nonJsRe = /\.json(?:$|\?)/
-export const isNonJsRequest = (request: string): boolean =>
-  nonJsRe.test(request)
+export function isNonJsRequest(request: string): boolean {
+  return nonJsRe.test(request)
+}
 
-export const imageWarn = (url: string) => {
+export function imageWarn(url: string) {
   console.warn(
     `${colors.yellow('[vite:image-placeholder] warn')}: ${colors.gray(
       url,
     )} The URL does not generate images correctly. Please check the URL.`,
   )
+}
+
+export function urlParse(input: string) {
+  const url = new URL(input, 'http://example.com')
+  const pathname = decodeURIComponent(url.pathname)
+  const query = queryParse(url.search.replace(/^\?/, ''))
+  return { pathname, query }
 }

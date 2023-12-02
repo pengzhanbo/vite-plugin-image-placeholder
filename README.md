@@ -60,7 +60,6 @@ export default defineConfig(() => ({
     prefix: 'image/placeholder'
   })],
 }))
-
 ```
 
 ### Match rules
@@ -200,7 +199,7 @@ export interface ImagePlaceholderOptions {
    */
   prefix?: string
   /**
-   * image default background value of `Hex` or `RGB` 
+   * image default background value of `Hex` or `RGB`
    *
    * Passing in an array of colors will randomly select any color as the default background color
    *
@@ -221,7 +220,7 @@ export interface ImagePlaceholderOptions {
    */
   text?: string
   /**
-   * image default type 
+   * image default type
    *
    * @type 'jpg' | 'jpeg' | 'png' | 'webp' | 'avif' | 'heif' | 'gif' | 'svg'
    *
@@ -236,27 +235,27 @@ export interface ImagePlaceholderOptions {
   width?: number
   /**
    * default height
-   * 
+   *
    * @default `${width}x${ratio}`
    */
   height?: number
   /**
-   * Image aspect ratio. When the height is not explicitly specified, 
+   * Image aspect ratio. When the height is not explicitly specified,
    * the height will be calculated according to the ratio
    *
    * @default 9/16
    */
   ratio?: number
   /**
-   * Image compression quality ratio. The value ranges from 0 to 100. 
+   * Image compression quality ratio. The value ranges from 0 to 100.
    * 100 indicates that the image is not compressed
    *
    * @default 80
    */
   quality?: number
   /**
-   * png image compression level. 
-   * The value ranges from 0 to 9. 
+   * png image compression level.
+   * The value ranges from 0 to 9.
    * 0 is the fastest but has high quality, and 9 is the slowest but has low quality
    *
    * @default 6
@@ -280,13 +279,13 @@ export interface ImagePlaceholderOptions {
     | true
     | string
     | {
-        dir?: string
-        /**
-         * Override filename. Sometimes image resources need to be published to CDN. 
-         * You can change the filename here
-         */
-        filename?: OutputFilename
-      }
+      dir?: string
+      /**
+       * Override filename. Sometimes image resources need to be published to CDN.
+       * You can change the filename here
+       */
+      filename?: OutputFilename
+    }
 }
 
 export type OutputFilename = (filename: string, file: OutputFile) => string

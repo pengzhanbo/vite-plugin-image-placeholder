@@ -2,13 +2,13 @@
  * 这个测试文件的目的，是测试定义的 路径匹配规则是否符合期望。
  */
 import { match as pathMatch } from 'path-to-regexp'
-import { describe, expect, test } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import { createPathRuleMatch } from '../src/pathRules'
 
 describe('path pattern truthy', () => {
   const findPathRule = createPathRuleMatch('/image/placeholder')
   const matches = (pathname: string): boolean => !!findPathRule(pathname)
-  test.each(
+  it.each(
     [
       // -- width height type --- start ---
       '',
@@ -58,7 +58,7 @@ describe('path pattern truthy', () => {
       '/c/222',
       '/color/fff/bg/000',
       '/bg/fff/t/mark/c/000/300/200.png',
-    ].map((path) => `/image/placeholder${path}`),
+    ].map(path => `/image/placeholder${path}`),
   )('path: %s', (pathname) => {
     expect(matches(pathname)).toBeTruthy()
   })
@@ -67,7 +67,7 @@ describe('path pattern truthy', () => {
 describe('path matches falsy', () => {
   const findPathRule = createPathRuleMatch('/image/placeholder')
   const matches = (pathname: string): boolean => !!findPathRule(pathname)
-  test.each(
+  it.each(
     [
       '/ee',
       '/cc/bb',
@@ -77,7 +77,7 @@ describe('path matches falsy', () => {
       '/bg/ggg/text',
       '/b/gggg',
       '/text/mark/bg/ccc/c/ggg',
-    ].map((path) => `/image/placeholder${path}`),
+    ].map(path => `/image/placeholder${path}`),
   )('path: %s', (pathname) => {
     expect(matches(pathname)).toBeFalsy()
   })
@@ -94,7 +94,7 @@ describe('path matches parse', () => {
     return {}
   }
 
-  test.each(
+  it.each(
     [
       { pathname: '', expected: {} },
       { pathname: '/300', expected: { width: '300' } },

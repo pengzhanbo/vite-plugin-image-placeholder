@@ -40,7 +40,7 @@ export async function bufferToFile(
   return _http ? pathname : path.join('/', _filename)
 }
 
-export const bufferToBase64 = (image: ImageCacheItem) => {
+export function bufferToBase64(image: ImageCacheItem) {
   const base64 = image.buffer.toString('base64')
   const content = `data:${getMimeType(image.type)};base64,${base64}`
   return content
