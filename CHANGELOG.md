@@ -1,3 +1,12 @@
+# [1.0.0](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.3.0...v1.0.0) (2023-12-2)
+
+
+### Bug Fixes
+
+* heif compression options ([9f86e6d](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/9f86e6dd91525f753448d76f651778f920528e72))
+
+
+
 # [0.3.0](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.2.11...v0.3.0) (2023-05-17)
 
 
