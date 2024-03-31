@@ -114,10 +114,13 @@ function placeholderImporterPlugin(
         const image = await pathToImage(url, findPathRule, opts)
         if (image) {
           let content: string
+          const isLimit = typeof config.build.assetsInlineLimit === 'function'
+            ? config.build.assetsInlineLimit(url, image.buffer)
+            : image.buffer.byteLength >= config.build.assetsInlineLimit
           if (
             isBuild
             && opts.output
-            && image.buffer.byteLength >= config.build.assetsInlineLimit
+            && isLimit
           ) {
             const { assetsDir, filename } = parseOutput(opts.output, config)
             content = await bufferToFile(
@@ -232,11 +235,14 @@ export async function transformPlaceholder(
     else {
       const image = await pathToImage(url, findPathRule, opts)
       if (image) {
+        const isLimit = typeof config.build.assetsInlineLimit === 'function'
+          ? config.build.assetsInlineLimit(url, image.buffer)
+          : image.buffer.byteLength >= config.build.assetsInlineLimit
         hasReplaced = true
         let content: string
         if (
           opts.output
-          && image.buffer.byteLength >= config.build.assetsInlineLimit
+          && isLimit
           && config.command === 'build'
         ) {
           const { assetsDir, filename } = parseOutput(opts.output, config)
