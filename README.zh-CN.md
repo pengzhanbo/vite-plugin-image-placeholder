@@ -31,7 +31,6 @@
 - 📤 支持打包时图片输出到构建目录
 - 🖥 开发服务注入中间件，支持`GET`请求获取图片
 
-
 ## 安装
 
 ```sh
@@ -44,10 +43,11 @@ npm i -D vite-plugin-image-placeholder
 sharp_binary_host=https://npmmirror.com/mirrors/sharp
 sharp_libvips_binary_host=https://npmmirror.com/mirrors/sharp-libvips
 ```
+
 然后重新安装插件。
 
-
 ## 使用
+
 ```ts
 import { defineConfig } from 'vite'
 import imagePlaceholder from 'vite-plugin-image-placeholder'
@@ -74,30 +74,33 @@ export default defineConfig(() => ({
 支持定义图片 背景色、文本内容、文本颜色、宽度、高度、图片格式
 
 - 背景色： `/background/:background`, 或者 `/bg/:background`
-  
+
   exp: `/background/ccc`, `/bg/fff`, `/bg/255,255,255`
 
 - 文本内容：`/text/:text`, 或者 `/t/:text`
-  
+
   exp: `/text/mark`, `/t/mark`
 
-- 文本颜色： `/textColor/:textColor`, 或者 `/color/:textColor` , 或者 `/c/:textColor` 
-  
+- 文本颜色： `/textColor/:textColor`, 或者 `/color/:textColor` , 或者 `/c/:textColor`
+
   exp: `/textColor/999`, `/color/333`, `/c/0,0,0`
 
 - 宽度、高度、图片格式： `/:width?/:height?/{.:type}?`
-  
+
   exp: `/300` , `/300/200`, `/300/200.png`, `.png`, `/300.png`
 
 其中，背景色，文本内容，文本颜色 三者可以任意排列或缺省，这意味着支持：
-```
+
+```txt
 /text/:text/bg/:background/textColor/:textColor
 /text/:text/textColor/:textColor
 /bg/:background/text/:text
 /textColor/:textColor
 ```
+
 宽度、高度、图片格式 三者则固定跟随在 `pathname`的尾部：
-```
+
+```txt
 /text/:text/bg/:background/textColor/:textColor/:width?/:height?/{.:type}?
 /text/:text/textColor/:textColor/:width?/:height?/{.:type}?
 /bg/:background/text/:text/:width?/:height?/{.:type}?
@@ -113,15 +116,14 @@ export default defineConfig(() => ({
 
 图片格式支持： `png`, `jpe?g`, `webp`, `avif`, `heif`, `gif`, `svg`
 
-
 > 插件会严格校验 named parameters 各个值的格式是否符合要求，比如 颜色值必须符合 hex 和 rgb 的格式， width和height必须是整数。
-> 
+>
 > 如果校验不通过，则不会生成图片，而是当做普通文本处理。
-
 
 #### query 参数
 
 query 部分是不常用的一些图片设置支持，目前主要支持了产生图片噪声。
+
 ```ts
 interface Query {
   noise: 1 | 0 // 图片噪声
@@ -130,7 +132,7 @@ interface Query {
 }
 ```
 
-# 示例
+## 示例
 
 ```txt
 /image/placeholder
@@ -153,6 +155,7 @@ interface Query {
 ```
 
 在 `html` 中
+
 ```html
 <img src="/image/placeholder" alt="">
 <img src="/image/placeholder/200" alt="">
@@ -160,6 +163,7 @@ interface Query {
 ```
 
 在 `css` 中
+
 ```css
 .placeholder {
   background: url('/image/placeholder');
@@ -167,13 +171,16 @@ interface Query {
 ```
 
 在 `js` 中通过模块导入
+
 ```js
 import placeholder from 'virtual:image/placeholder'
 
 const img = new Image()
 img.src = placeholder
 ```
+
 在 `js` 中以字符串的形式内联为 `base64`
+
 ``` js
 const img = new Image()
 img.src = '/image/placeholder'
@@ -285,6 +292,7 @@ export interface OutputFile {
   ext: string
 }
 ```
+
 ## Archives
 
 [awesome-vite](https://github.com/vitejs/awesome-vite#helpers)

@@ -28,11 +28,10 @@
 - 🛠 Customize the image type`png`, `jpe?g`, `webp`, `avif`, `heif`, `gif`, `svg`
 - 🎉 Flexible path-matching rules
 - 🔥 HMR
-- 🧱 Support import image module  
+- 🧱 Support import image module
 - 📥 Support for build inline into code（html/css/js)
 - 📤 Supports image output to build directory
 - 🖥 Develop service injection middleware that supports `GET` requests to get images
-
 
 ## Install
 
@@ -49,8 +48,8 @@ sharp_libvips_binary_host=https://npmmirror.com/mirrors/sharp-libvips
 
 Then reinstall the plugin.
 
-
 ## Usage
+
 ```ts
 import { defineConfig } from 'vite'
 import imagePlaceholder from 'vite-plugin-image-placeholder'
@@ -77,24 +76,25 @@ In a path to generate placeholder images, the URL consists of `pathname` + `quer
 Supports the definition of image background color, text content, text color, width, height, and image type.
 
 - background color： `/background/:background`, or `/bg/:background`
-  
+
   exp: `/background/ccc`, `/bg/fff`, `/bg/255,255,255`
 
 - text content：`/text/:text`, or `/t/:text`
-  
+
   exp: `/text/mark`, `/t/mark`
 
-- text color： `/textColor/:textColor`, or `/color/:textColor` , or `/c/:textColor` 
-  
+- text color： `/textColor/:textColor`, or `/color/:textColor` , or `/c/:textColor`
+
   exp: `/textColor/999`, `/color/333`, `/c/0,0,0`
 
 - width、height、type： `/:width?/:height?/{.:type}?`
-  
+
   exp: `/300` , `/300/200`, `/300/200.png`, `.png`, `/300.png`
 
-Background color, text content, and text color can be arranged or default, 
+Background color, text content, and text color can be arranged or default,
 which means support for:
-```
+
+```txt
 /text/:text/bg/:background/textColor/:textColor
 /text/:text/textColor/:textColor
 /bg/:background/text/:text
@@ -102,7 +102,8 @@ which means support for:
 ```
 
 Width, height and image format are fixed at the end of `pathname` :
-```
+
+```txt
 /text/:text/bg/:background/textColor/:textColor/:width?/:height?/{.:type}?
 /text/:text/textColor/:textColor/:width?/:height?/{.:type}?
 /bg/:background/text/:text/:width?/:height?/{.:type}?
@@ -118,15 +119,14 @@ Since the `#` in `Hex` conflicts with the `hash` part of the path, the value of 
 
 Image type support： `png`, `jpe?g`, `webp`, `avif`, `heif`, `gif`, `svg`
 
-
 > The plugin strictly checks whether the format of each value of the named parameters meets the requirements. For example, the color value must conform to the format of hex and rgb, and width and height must be integers.
-> 
+>
 > If the check fails, the image is not generated, but treated as normal text.
-
 
 #### query parameters
 
 The query part is not commonly used some image Settings support, currently mainly support image noise.
+
 ```ts
 interface Query {
   noise: 1 | 0 // image noise
@@ -135,7 +135,7 @@ interface Query {
 }
 ```
 
-# Example
+## Example
 
 ```txt
 /image/placeholder
@@ -158,6 +158,7 @@ interface Query {
 ```
 
 In `html`
+
 ```html
 <img src="/image/placeholder" alt="">
 <img src="/image/placeholder/200" alt="">
@@ -165,6 +166,7 @@ In `html`
 ```
 
 In `css`
+
 ```css
 .placeholder {
   background: url('/image/placeholder');
@@ -172,13 +174,16 @@ In `css`
 ```
 
 In `js` , import modules
+
 ```js
 import placeholder from 'virtual:image/placeholder'
 
 const img = new Image()
 img.src = placeholder
 ```
+
 In `js`, Inline 'base64' as a string
+
 ``` js
 const img = new Image()
 img.src = '/image/placeholder'
@@ -296,6 +301,7 @@ export interface OutputFile {
   ext: string
 }
 ```
+
 ## Archives
 
 [awesome-vite](https://github.com/vitejs/awesome-vite#helpers)
