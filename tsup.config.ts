@@ -8,5 +8,5 @@ export default defineConfig({
   clean: true,
   minify: true,
   shims: true,
-  format: ['esm', 'cjs'],
+  format: ['esm'],
 })
