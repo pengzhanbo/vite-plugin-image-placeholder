@@ -1,3 +1,22 @@
+# [1.1.0](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v1.0.0...v1.1.0) (2024-3-31)
+
+
+### Bug Fixes
+
+* function `assetsInlineLimit` ([6273b7e](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/6273b7e7a83408a17842d0e97c67b635c5b51458))
+
+
+### Features
+
+* pure es module ([59070ef](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/59070ef349f49d872c697ed40414b0de859ba452))
+
+
+### Performance Improvements
+
+* update non-major deps ([a406215](https://github.com/pengzhanbo/vite-plugin-image-placeholder/commit/a406215ae48101454b8801ede6ee3a2146617c8e))
+
+
+
 # [1.0.0](https://github.com/pengzhanbo/vite-plugin-image-placeholder/compare/v0.3.0...v1.0.0) (2023-12-2)
 
 
