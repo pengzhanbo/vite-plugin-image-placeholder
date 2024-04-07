@@ -2,7 +2,7 @@
   "name": "vite-plugin-image-placeholder",
   "type": "module",
   "version": "1.1.0",
-  "packageManager": "pnpm@8.15.5",
+  "packageManager": "pnpm@8.15.6",
   "description": "🔥 Generate a placeholder image for the content area where the image resource is not ready.",
   "author": "pengzhanbo <q942450674@outlook.com> (https://github.com/pengzhanbo)",
   "license": "MIT",
@@ -51,7 +51,7 @@
   "dependencies": {
     "debug": "^4.3.4",
     "lru-cache": "^10.2.0",
-    "magic-string": "^0.30.8",
+    "magic-string": "^0.30.9",
     "path-to-regexp": "^6.2.1",
     "picocolors": "^1.0.0",
     "rgb-hex": "^4.1.0",
@@ -60,14 +60,14 @@
   "devDependencies": {
     "@pengzhanbo/eslint-config": "^1.7.0",
     "@types/debug": "^4.1.12",
-    "@types/node": "^20.12.2",
+    "@types/node": "^20.12.5",
     "@types/sharp": "^0.32.0",
     "bumpp": "^9.4.0",
     "conventional-changelog-cli": "^4.1.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.0.0",
     "tsup": "^8.0.2",
-    "typescript": "^5.4.3",
-    "vite": "^5.2.7",
+    "typescript": "^5.4.4",
+    "vite": "^5.2.8",
     "vitest": "^1.4.0"
   }
 }
